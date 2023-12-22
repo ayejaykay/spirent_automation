@@ -1,0 +1,255 @@
+11:39:05.089 INFO  - Connecting to chassis 10.11.1.3...
+11:39:05.146 INFO  - chassis 10.11.1.3 is in sync.
+11:39:05.146 INFO  - chassis 10.11.1.3 temperature sensor L1-L is now at normal level.
+11:39:05.146 INFO  - chassis 10.11.1.3 temperature sensor L1-1 is now at normal level.
+11:39:05.146 INFO  - chassis 10.11.1.3 temperature sensor L1-2 is now at normal level.
+11:39:05.146 INFO  - chassis 10.11.1.3 temperature sensor L1-3 is now at normal level.
+11:39:05.146 INFO  - chassis 10.11.1.3 temperature sensor BP1-L is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP1-1 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP1-2 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP1-3 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP2-L is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP2-1 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP2-2 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP2-3 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP3-L is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP3-1 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP3-2 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP3-3 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP3-4 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP3-5 is now at normal level.
+11:39:05.147 INFO  - chassis 10.11.1.3 temperature sensor BP3-6 is now at normal level.
+11:39:05.148 INFO  - chassis 10.11.1.3 temperature sensor FNC-L is now at normal level.
+11:39:05.148 INFO  - chassis 10.11.1.3 temperature sensor FNC-1 is now at normal level.
+11:39:05.148 INFO  - chassis 10.11.1.3 temperature sensor FNC-2 is now at normal level.
+11:39:05.148 INFO  - chassis 10.11.1.3 temperature sensor FNC-3 is now at normal level.
+11:39:05.148 INFO  - chassis 10.11.1.3 temperature sensor FNC-4 is now at normal level.
+11:39:05.188 INFO  - Successfully connected to chassis 10.11.1.3.
+11:39:06.991 INFO  - Successfully reserved  ports in chassis 10.11.1.3
+11:39:09.367 INFO  - Applying...
+11:39:09.387 INFO  - Retrieving license information for chassis 10.11.1.3...
+11:39:09.388 INFO  - Completed retrieving license information for chassis 10.11.1.3.
+11:39:09.431 INFO  - Stream block (StreamBlock 126-1-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:09.434 INFO  - Stream block (StreamBlock 126-2-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:09.437 INFO  - Stream block (StreamBlock 126-3-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:09.440 INFO  - Stream block (StreamBlock 126-4-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:09.443 INFO  - Stream block (StreamBlock 126-5-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:09.446 INFO  - Stream block (StreamBlock 126-6-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:09.450 INFO  - Applying hardware setup related configuration...
+11:39:09.999 INFO  - Checking if the port(s) require reboot after the apply...
+11:39:10.002 INFO  - Completed hardware setup related configuration
+11:39:11.592 INFO  - Applying network interfaces
+11:39:11.592 INFO  - Completed applying network interfaces
+11:39:13.391 INFO  - Applied 684 object change(s) to the hardware.
+
+11:39:13.430 INFO  - Applying...
+11:39:13.441 INFO  - Applying hardware setup related configuration...
+11:39:13.441 INFO  - Checking if the port(s) require reboot after the apply...
+11:39:13.445 INFO  - Completed hardware setup related configuration
+11:39:13.449 INFO  - Applying network interfaces
+11:39:13.449 INFO  - Completed applying network interfaces
+11:39:13.470 INFO  - Applied 3 object change(s) to the hardware.
+
+11:39:13.502 INFO  - Applying...
+11:39:13.512 INFO  - Applying hardware setup related configuration...
+11:39:13.512 INFO  - Checking if the port(s) require reboot after the apply...
+11:39:13.516 INFO  - Completed hardware setup related configuration
+11:39:13.520 INFO  - Applying network interfaces
+11:39:13.520 INFO  - Completed applying network interfaces
+11:39:13.595 INFO  - Applied 2 object change(s) to the hardware.
+
+11:39:13.624 INFO  - Applied 0 object change(s).
+
+11:39:13.624 INFO  - Sequencer started
+11:39:13.625 INFO  - Validating commands
+11:39:13.644 INFO  - Applied 0 object change(s).
+
+11:39:13.645 INFO  - Running command: Learning: Start L2 Learning 1
+11:39:13.655 INFO  - Applied 0 object change(s).
+
+11:39:13.656 INFO  - L2 Learning Start Command - started
+11:39:14.670 INFO  - L2 Tx and Rx Learning ...
+11:39:14.670 INFO  - L2 Learning: L2 Tx and Rx Learning - Tx Learning ...
+11:39:15.687 INFO  - Applying...
+11:39:16.010 INFO  - Applying hardware setup related configuration...
+11:39:16.010 INFO  - Checking if the port(s) require reboot after the apply...
+11:39:16.013 INFO  - Completed hardware setup related configuration
+11:39:16.017 INFO  - Applying network interfaces
+11:39:16.017 INFO  - Completed applying network interfaces
+11:39:16.050 INFO  - Applied 18 object change(s) to the hardware.
+
+11:39:16.051 INFO  - StreamBlockStartCommand Waiting for 6 response(s).
+11:39:17.059 INFO  - L2 Learning: Waiting for generators to stop ...
+11:39:17.567 INFO  - L2 Learning: Waiting for generator to stop - completed
+11:39:17.567 INFO  - L2 Learning: Restore user's original configuration ...
+11:39:17.567 INFO  - L2 Tx and Rx Learning - Tx Learning completed
+11:39:17.567 INFO  - L2 Tx and Rx Learning - Rx Learning
+11:39:18.699 INFO  - Applying...
+11:39:19.036 INFO  - Stream block (StreamBlock 8): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.037 INFO  - Stream block (StreamBlock 126-1-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.040 INFO  - Stream block (StreamBlock 126-2-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.041 INFO  - Stream block (StreamBlock 7): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.043 INFO  - Stream block (StreamBlock 10): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.045 INFO  - Stream block (StreamBlock 126-3-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.047 INFO  - Stream block (StreamBlock 9): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.048 INFO  - Stream block (StreamBlock 126-4-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.051 INFO  - Stream block (StreamBlock 11): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.052 INFO  - Stream block (StreamBlock 126-5-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.054 INFO  - Stream block (StreamBlock 12): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.056 INFO  - Stream block (StreamBlock 126-6-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.060 INFO  - Applying hardware setup related configuration...
+11:39:19.060 INFO  - Checking if the port(s) require reboot after the apply...
+11:39:19.063 INFO  - Completed hardware setup related configuration
+11:39:19.067 INFO  - Applying network interfaces
+11:39:19.067 INFO  - Completed applying network interfaces
+11:39:19.184 INFO  - Applied 90 object change(s) to the hardware.
+
+11:39:19.185 INFO  - StreamBlockStartCommand Waiting for 6 response(s).
+11:39:20.140 INFO  - L2 Learning: Waiting for generators to stop ...
+11:39:20.654 INFO  - L2 Learning: Waiting for generator to stop - completed
+11:39:20.654 INFO  - L2 Learning: Restore user's original configuration ...
+11:39:20.655 INFO  - L2 Tx and Rx Learning - Rx Learning completed
+11:39:20.655 INFO  - L2 Tx and Rx Learning - completed
+11:39:21.719 INFO  - Applying...
+11:39:22.032 INFO  - Stream block (StreamBlock 126-1-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.035 INFO  - Stream block (StreamBlock 126-2-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.037 INFO  - Stream block (StreamBlock 126-3-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.040 INFO  - Stream block (StreamBlock 126-4-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.042 INFO  - Stream block (StreamBlock 126-5-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.044 INFO  - Stream block (StreamBlock 126-6-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.049 INFO  - Applying hardware setup related configuration...
+11:39:22.049 INFO  - Checking if the port(s) require reboot after the apply...
+11:39:22.071 INFO  - Completed hardware setup related configuration
+11:39:22.075 INFO  - Applying network interfaces
+11:39:22.075 INFO  - Completed applying network interfaces
+11:39:23.467 INFO  - Applied 120 object change(s) to the hardware.
+
+11:39:23.980 INFO  - Learning: Start L2 Learning 1 finished.  Elapsed time [00:00:10.334]
+11:39:23.980 INFO  - Running command: Clear All Results 1
+11:39:24.137 INFO  - Applied 0 object change(s).
+
+11:39:24.138 INFO  - Clear All Protocol Results is successful
+11:39:24.138 INFO  - Clear All Results 1 finished.  Elapsed time [00:00:00.159]
+11:39:24.138 INFO  - Running command: Start Traffic 1
+11:39:24.148 INFO  - Applied 0 object change(s).
+
+11:39:24.365 INFO  - Start Traffic 1 finished.  Elapsed time [00:00:00.226]
+11:39:24.366 INFO  - Running command: Wait For Traffic Stop 1
+11:39:25.405 INFO  - Wait For Traffic Stop 1 finished.  Elapsed time [00:00:01.039]
+11:39:25.405 INFO  - Running command: Wait 1
+11:39:27.290 INFO  - Wait 1 finished.  Elapsed time [00:00:01.885]
+11:39:27.290 INFO  - Running command: If
+11:39:27.305 INFO  - AnalyzerPortResults.3352().SigFrameCount == 500000
+11:39:27.305 INFO  - AnalyzerPortResults.3353().SigFrameCount == 500000
+11:39:27.305 INFO  - AnalyzerPortResults.3354().SigFrameCount == 500000
+11:39:27.305 INFO  - AnalyzerPortResults.3355().SigFrameCount == 500000
+11:39:27.305 INFO  - AnalyzerPortResults.3356().SigFrameCount == 500000
+11:39:27.305 INFO  - AnalyzerPortResults.3357().SigFrameCount == 500000
+11:39:27.305 INFO  - If finished.  Elapsed time [00:00:00.015]
+11:39:27.310 INFO  - Applied 0 object change(s).
+
+11:39:27.310 INFO  - Sequencer is finalizing ...
+11:39:27.320 INFO  - Sequencer finished.  Elapsed time [00:00:13.696]
+11:39:28.809 INFO  - Disconnecting from chassis 10.11.1.3...
+11:39:28.813 INFO  - Successfully released 10.11.1.3 test module 1 port group 6
+11:39:28.817 INFO  - Successfully released 10.11.1.3 test module 1 port group 1
+11:39:28.821 INFO  - Successfully released 10.11.1.3 test module 1 port group 2
+11:39:28.825 INFO  - Successfully released 10.11.1.3 test module 1 port group 4
+11:39:28.828 INFO  - Successfully released 10.11.1.3 test module 1 port group 5
+11:39:28.832 INFO  - Successfully released 10.11.1.3 test module 1 port group 3
+11:39:28.836 INFO  - Successfully released  ports in chassis 10.11.1.3
+11:39:28.838 INFO  - Successfully disconnected from chassis 10.11.1.3.
+of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 126-1-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 126-2-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 7): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 10): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 126-3-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 9): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 126-4-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 11): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 126-5-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 12): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Stream block (StreamBlock 126-6-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:19.565 INFO  - Applying hardware setup related configuration...
+11:39:19.565 INFO  - Checking if the port(s) require reboot after the apply...
+11:39:19.565 INFO  - Completed hardware setup related configuration
+11:39:19.565 INFO  - Applying network interfaces
+11:39:19.565 INFO  - Completed applying network interfaces
+11:39:19.565 INFO  - Applied 90 object change(s) to the hardware.
+
+11:39:19.565 INFO  - StreamBlockStartCommand Waiting for 6 response(s).
+11:39:19.704 INFO  - stc::get sequencer1 -state
+11:39:19.704 INFO  - return  WAIT
+11:39:20.529 INFO  - L2 Learning: Waiting for generators to stop ...
+11:39:20.714 INFO  - stc::get sequencer1 -state
+11:39:20.714 INFO  - return  WAIT
+11:39:21.719 INFO  - stc::get sequencer1 -state
+11:39:21.719 INFO  - return  WAIT
+11:39:21.724 INFO  - L2 Learning: Waiting for generator to stop - completed
+11:39:21.724 INFO  - L2 Learning: Restore user's original configuration ...
+11:39:21.724 INFO  - L2 Tx and Rx Learning - Rx Learning completed
+11:39:21.724 INFO  - L2 Tx and Rx Learning - completed
+11:39:22.561 INFO  - Applying...
+11:39:22.561 INFO  - Stream block (StreamBlock 126-1-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.561 INFO  - Stream block (StreamBlock 126-2-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.561 INFO  - Stream block (StreamBlock 126-3-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.561 INFO  - Stream block (StreamBlock 126-4-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.561 INFO  - Stream block (StreamBlock 126-5-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.561 INFO  - Stream block (StreamBlock 126-6-1): The leading byte(s) of Ethernet preamble (0x5555) will be replaced by hardware with static value (0xfb55)
+11:39:22.561 INFO  - Applying hardware setup related configuration...
+11:39:22.561 INFO  - Checking if the port(s) require reboot after the apply...
+11:39:22.561 INFO  - Completed hardware setup related configuration
+11:39:22.561 INFO  - Applying network interfaces
+11:39:22.561 INFO  - Completed applying network interfaces
+11:39:22.733 INFO  - stc::get sequencer1 -state
+11:39:22.733 INFO  - return  WAIT
+11:39:23.744 INFO  - stc::get sequencer1 -state
+11:39:23.744 INFO  - return  WAIT
+11:39:23.775 INFO  - Applied 120 object change(s) to the hardware.
+
+11:39:24.581 INFO  - Learning: Start L2 Learning 1 finished.  Elapsed time [00:00:10.334]
+11:39:24.581 INFO  - Running command: Clear All Results 1
+11:39:24.581 INFO  - Applied 0 object change(s).
+
+11:39:24.581 INFO  - Clear All Protocol Results is successful
+11:39:24.581 INFO  - Clear All Results 1 finished.  Elapsed time [00:00:00.159]
+11:39:24.581 INFO  - Running command: Start Traffic 1
+11:39:24.581 INFO  - Applied 0 object change(s).
+
+11:39:24.581 INFO  - Start Traffic 1 finished.  Elapsed time [00:00:00.226]
+11:39:24.581 INFO  - Running command: Wait For Traffic Stop 1
+11:39:24.753 INFO  - stc::get sequencer1 -state
+11:39:24.753 INFO  - return  WAIT
+11:39:25.759 INFO  - stc::get sequencer1 -state
+11:39:25.759 INFO  - return  WAIT
+11:39:25.806 INFO  - Wait For Traffic Stop 1 finished.  Elapsed time [00:00:01.039]
+11:39:25.806 INFO  - Running command: Wait 1
+11:39:26.760 INFO  - stc::get sequencer1 -state
+11:39:26.760 INFO  - return  WAIT
+11:39:27.773 INFO  - stc::get sequencer1 -state
+11:39:27.773 INFO  - return  IDLE
+11:39:27.835 INFO  - Wait 1 finished.  Elapsed time [00:00:01.885]
+11:39:27.835 INFO  - Running command: If
+11:39:27.835 INFO  - AnalyzerPortResults.3352().SigFrameCount == 500000
+11:39:27.835 INFO  - AnalyzerPortResults.3353().SigFrameCount == 500000
+11:39:27.835 INFO  - AnalyzerPortResults.3354().SigFrameCount == 500000
+11:39:27.835 INFO  - AnalyzerPortResults.3355().SigFrameCount == 500000
+11:39:27.835 INFO  - AnalyzerPortResults.3356().SigFrameCount == 500000
+11:39:27.835 INFO  - AnalyzerPortResults.3357().SigFrameCount == 500000
+11:39:27.835 INFO  - If finished.  Elapsed time [00:00:00.015]
+11:39:27.835 INFO  - Applied 0 object change(s).
+
+11:39:27.835 INFO  - Sequencer is finalizing ...
+11:39:27.835 INFO  - Sequencer finished.  Elapsed time [00:00:13.696]
+11:39:28.778 INFO  - stc::get System1 -Children-Sequencer
+11:39:28.778 INFO  - return  sequencer1
+11:39:28.778 INFO  - stc::get sequencer1 -Status
+11:39:28.779 INFO  - return  {}
+11:39:28.779 INFO  - stc::get sequencer1 -TestState
+11:39:28.779 INFO  - return  PASSED
+11:39:28.779 INFO  - stc::perform chassisDisconnectAll
+11:39:28.841 INFO  - return  -parent system1 -Name {ChassisDisconnectAllCommand 1} -State COMPLETED -Status Completed! -StartTime 1702658368.79538 -EndTime 1702658368.83826 -ElapsedTime 43 -ProgressDisplayCounter true -ProgressStepsCount 1 -ProgressCurrentStep 1 -ProgressCurrentStepName {} -ProgressMaxValue 0 -ProgressCurrentValue 0 -ProgressCancelled false -Active true
+11:39:28.841 INFO  - stc::perform resetConfig
+11:39:28.898 INFO  - return  -Name {ResetConfigCommand 2} -Config {} -State COMPLETED -Status {} -StartTime 1702658368.85522 -EndTime 1702658368.89611 -ElapsedTime 41 -ProgressDisplayCounter true -ProgressStepsCount 1 -ProgressCurrentStep 1 -ProgressCurrentStepName {} -ProgressMaxValue 0 -ProgressCurrentValue 0 -ProgressCancelled false -Active true
+11:39:28.898 INFO  - Disconnected from Server Manager at 127.0.0.1:46152, handles from that session are no longer valid
