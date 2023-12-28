@@ -41,11 +41,12 @@ class ZoneOne:
                     ),
                     width=self.page.window_width/2,
                     height=self.page.window_height*0.85,
+                    padding=padding.only(top=30)
                     # bgcolor="black",
                    )
                 ],
-
-                wrap=True,
+                expand=True
+                # wrap=True,
         )
     
 
@@ -90,9 +91,10 @@ class ZoneTwo:
                     height=self.page.window_height*0.66,
                     alignment=alignment.center,
                     padding=padding.only(right=40, top=10),
+                    # bgcolor="green"
                 ), 
                 ],
-
+                expand=True
         )
     
 class ZoneThree:
@@ -174,18 +176,19 @@ class ZoneThree:
                                 # bgcolor="black",
                                 alignment=alignment.center,
                                 # padding=40
+                                padding=padding.only(top=80)
                             ),
                         ],
                     ),
                     width=self.page.window_width/2,
-                    height=self.page.window_height*0.33,
+                    height=self.page.window_height*0.25,
                     # bgcolor="blue",
                     alignment=alignment.center,
-                    padding=padding.only(right=20, top=30)
+                    padding=padding.only(right=20, top=100)
                 ),
                 ],
-
-            wrap=True,
+                expand=True
+            # wrap=True,
         )
 
 
@@ -206,9 +209,10 @@ def main(page: Page):
             [
             z2.build_zone_2(),
             z3.build_zone_3(),
-            ]
+            ],
         ),
         ],
+        expand=True,
         )
     )
 
