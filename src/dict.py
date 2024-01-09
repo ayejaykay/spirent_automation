@@ -26,7 +26,10 @@ patch = {
 
 }
 
-
+spirent_port = {
+    '//10.11.1.3/1/1': 0,
+    '//10.11.1.3/1/2': 1,
+}
 
 # 08DEC237026TX$09    
 # Format is always <7 char date><model>$<num>

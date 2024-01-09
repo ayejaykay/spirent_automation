@@ -2,6 +2,7 @@ from flet import *
 from SpirentTester import *
 from WindowManager import *
 from ResultsManager import *
+import time
 import os
 
 __location__ = os.path.dirname(os.path.realpath(__file__))
@@ -15,6 +16,120 @@ class ZoneOne:
         self.text_d = TextField(label="Patch D", hint_text="Scan Order Number", height=100, border_color="red")
         self.logo = Image(src=f"{__location__}\\assets\\logo.png", width=300, height=175, fit=ImageFit.CONTAIN)
         self.page = page
+        self.status_bubbles = []
+        self.fill_bubble_arr()
+        self.port_status_row_a = Row(
+            [
+                self.status_bubbles[0],
+                Text("//1/1"),
+                self.status_bubbles[1],
+                Text("//1/2"),
+                self.status_bubbles[2],
+                Text("//1/3"),
+                self.status_bubbles[3],
+                Text("//1/4"),
+                self.status_bubbles[4],
+                Text("//1/5"),
+                self.status_bubbles[5],
+                Text("//1/6"),   
+                self.status_bubbles[6],
+                Text("//1/7"),
+                self.status_bubbles[7],
+                Text("//1/8"),
+            ],
+            spacing=5,
+        )
+
+        self.port_status_row_b = Row(
+            [
+                self.status_bubbles[8],
+                Text("//1/1"),
+                self.status_bubbles[9],
+                Text("//1/2"),
+                self.status_bubbles[10],
+                Text("//1/3"),
+                self.status_bubbles[11],
+                Text("//1/4"),
+                self.status_bubbles[12],
+                Text("//1/5"),
+                self.status_bubbles[13],
+                Text("//1/6"),   
+                self.status_bubbles[14],
+                Text("//1/7"),
+                self.status_bubbles[15],
+                Text("//1/8"),
+            ],
+            spacing=5,
+        )
+
+        self.port_status_row_c = Row(
+            [
+                self.status_bubbles[16],
+                Text("//1/1"),
+                self.status_bubbles[17],
+                Text("//1/2"),
+                self.status_bubbles[18],
+                Text("//1/3"),
+                self.status_bubbles[19],
+                Text("//1/4"),
+                self.status_bubbles[20],
+                Text("//1/5"),
+                self.status_bubbles[21],
+                Text("//1/6"),   
+                self.status_bubbles[22],
+                Text("//1/7"),
+                self.status_bubbles[23],
+                Text("//1/8"),
+            ],
+            spacing=5,
+        )
+
+        self.port_status_row_d = Row(
+            [
+                self.status_bubbles[24],
+                Text("//1/1"),
+                self.status_bubbles[25],
+                Text("//1/2"),
+                self.status_bubbles[26],
+                Text("//1/3"),
+                self.status_bubbles[27],
+                Text("//1/4"),
+                self.status_bubbles[28],
+                Text("//1/5"),
+                self.status_bubbles[29],
+                Text("//1/6"),   
+                self.status_bubbles[30],
+                Text("//1/7"),
+                self.status_bubbles[31],
+                Text("//1/8"),
+            ],
+            spacing=5,
+        )
+
+    def fill_bubble_arr(self):
+        for i in range(32):
+            self.status_bubbles.append(Icon(name=icons.CIRCLE_OUTLINED, color=colors.BLACK))
+
+    def set_online(self, index):
+        self.status_bubbles[index].name = icons.CIRCLE_ROUNDED
+        self.status_bubbles[index].color = colors.GREEN
+        self.page.update()
+
+    def set_offline(self, index):
+        self.status_bubbles[index].name = icons.CIRCLE_OUTLINED
+        self.status_bubbles[index].color = colors.BLACK
+        self.page.update()
+
+    def set_icon(self, icon, patch, num):
+        if spirent_port[patch][num]:
+            icon.name = icons.CIRCLE_ROUNDED
+            icon.color = colors.GREEN
+            self.page.update()
+        else:
+            icon.name = icons.CIRCLE_OUTLINED
+            icon.color = colors.BLACK
+            self.page.update()
+
 
     def build_zone_1(self):
         return Column(
@@ -22,9 +137,13 @@ class ZoneOne:
                 Container(
                     content=Column(
                       controls=[
+                          self.port_status_row_a,
                           self.text_a,
+                          self.port_status_row_b,
                           self.text_b,
+                          self.port_status_row_c,
                           self.text_c,
+                          self.port_status_row_d,
                           self.text_d,
                           Container(
                               content=Column(
@@ -32,16 +151,17 @@ class ZoneOne:
                                       self.logo
                                   ]
                               ),
-                              width=self.page.window_width/2,
+                              width=self.page.window_width/3,
                               height=175,
                               alignment=alignment.center_left,
                             #   bgcolor="red"
                           )
                       ],
+                      spacing=0,
                     ),
                     width=self.page.window_width/2,
-                    height=self.page.window_height*0.85,
-                    padding=padding.only(top=30)
+                    height=self.page.window_height*0.75,
+                    padding=padding.only(top=10),
                     # bgcolor="black",
                    )
                 ],
@@ -216,9 +336,8 @@ def main(page: Page):
         )
     )
 
-
-
     page.update()
+
 
 if __name__ == "__main__":
     app(target=main)
