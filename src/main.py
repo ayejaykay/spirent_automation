@@ -1,11 +1,73 @@
-from flet import *
 from SpirentTester import *
 from WindowManager import *
 from ResultsManager import *
+from LinkStatus import *
+from flet import *
+from dict import *
+import subprocess
+import threading
+import atexit
+import queue
 import time
 import os
 
 __location__ = os.path.dirname(os.path.realpath(__file__))
+kill_flag = False
+
+def run_tcl():
+    global kill_flag
+    tcl_location = "..\\Tcl\\bin\\tclsh"
+    not_running = True
+    data = ""
+    while(1):
+        if not_running:
+            print("Starting Test Script")
+            sp = subprocess.Popen([tcl_location, "verify_link.tcl"])
+            not_running = False
+        if kill_flag:
+            print("Killing Subprocess")
+            sp.terminate()
+            sp.wait()
+            break
+
+
+
+def file_rw(z1):
+    global kill_flag
+    time.sleep(10)
+    while(1):
+        try:
+            port_arr = []
+            with open(f"{__location__}\\linkstatus.dat", "r") as fp:
+                fp.readline()
+                data = fp.readlines()
+                counter = 0
+                for line in data:
+                    counter+=1
+                    if "//" in line:
+                        port_arr.append((line[6:-1]))
+            port_num = 0
+            for i in spirent_ports:
+                if i in port_arr:
+                    #print(f"{i} offline")
+                    z1.set_offline(port_num)
+                else:
+                    #print(f"{i} online)")
+                    z1.set_online(port_num)
+                port_num+=1
+            time.sleep(1.3)
+            if kill_flag:
+                break
+        except FileNotFoundError:
+            print("Waiting on file write")
+            time.sleep(3)
+
+
+def shutdown():
+    global kill_flag
+    kill_flag = True
+    time.sleep(1)
+    os.remove(f"{__location__}\\linkstatus.dat")
 
 class ZoneOne:
 
@@ -120,16 +182,6 @@ class ZoneOne:
         self.status_bubbles[index].color = colors.BLACK
         self.page.update()
 
-    def set_icon(self, icon, patch, num):
-        if spirent_port[patch][num]:
-            icon.name = icons.CIRCLE_ROUNDED
-            icon.color = colors.GREEN
-            self.page.update()
-        else:
-            icon.name = icons.CIRCLE_OUTLINED
-            icon.color = colors.BLACK
-            self.page.update()
-
 
     def build_zone_1(self):
         return Column(
@@ -154,18 +206,18 @@ class ZoneOne:
                               width=self.page.window_width/3,
                               height=175,
                               alignment=alignment.center_left,
-                            #   bgcolor="red"
+                              #bgcolor="red"
                           )
                       ],
                       spacing=0,
                     ),
                     width=self.page.window_width/2,
                     height=self.page.window_height*0.75,
-                    padding=padding.only(top=10),
-                    # bgcolor="black",
+                    #padding=padding.only(top=10),
+                    #bgcolor="black",
                    )
                 ],
-                expand=True
+                #expand=True
                 # wrap=True,
         )
     
@@ -211,10 +263,10 @@ class ZoneTwo:
                     height=self.page.window_height*0.66,
                     alignment=alignment.center,
                     padding=padding.only(right=40, top=10),
-                    # bgcolor="green"
+                    #bgcolor="green"
                 ), 
                 ],
-                expand=True
+                #expand=True
         )
     
 class ZoneThree:
@@ -226,6 +278,7 @@ class ZoneThree:
         self.window_manager = WindowManager(self.window, self.page)
         self.spirent_tester = SpirentTester()
         self.results_manager = ResultsManager()
+        self.start_proc()
         self.test_btn =  ElevatedButton(
                             style=ButtonStyle(
                                 bgcolor={
@@ -248,11 +301,25 @@ class ZoneThree:
                             width=300, 
                             height=100, 
                             on_click=self.btn_click,
-                            # color="red", 
-                            # bgcolor=colors.GREY_50
+                            #color="red", 
+                            #bgcolor=colors.GREY_50
                         )
 
+   
+    def start_proc(self):
+        global kill_flag
+        kill_flag = False
+        t1 = threading.Thread(target=run_tcl, daemon=True).start()
+        t2 = threading.Thread(target=file_rw, args=(self.class_name,), daemon=True).start()
+        print("Threads started")
+
     def btn_click(self, e):
+        global kill_flag
+        print("Killing status processes")
+        kill_flag = True
+        self.test_btn.text="TESTING"
+        time.sleep(3)
+
         var_arr = [self.class_name.text_a, self.class_name.text_b, self.class_name.text_c, self.class_name.text_d]
         valid_fields = []
 
@@ -263,21 +330,26 @@ class ZoneThree:
             else:
                 valid_fields.append(i)
 
-        self.test_btn.text="TESTING"
+
+       
 
         self.page.update()
         arr = []
-        for i in valid_fields:
-            arr = self.spirent_tester.test_device(i.label, i.value, self.window_manager)
-            for j in arr:
-                self.window_manager.write_message_to_window(j)
-            self.results_manager.transmit_data(arr, i.label, i.value)
-            arr = []
+        try:
+            for i in valid_fields:
+                arr = self.spirent_tester.test_device(i.label, i.value, self.window_manager)
+                for j in arr:
+                    self.window_manager.write_message_to_window(j)
+                self.results_manager.transmit_data(arr, i.label, i.value)
+                arr = []
+        except TypeError:
+            pass
 
-        
+       
 
         self.test_btn.text="Start Spirent Test"
         self.page.update()
+        self.start_proc()
 
     def build_zone_3(self):
         return Column(
@@ -288,26 +360,26 @@ class ZoneThree:
                             Container(
                                 content=Column(
                                     controls=[
-                                        self.test_btn
+                                        self.test_btn,
                                     ]
                                 ),
                                 width=300,
                                 height=100, 
-                                # bgcolor="black",
+                                #bgcolor="black",
                                 alignment=alignment.center,
                                 # padding=40
-                                padding=padding.only(top=80)
+                                padding=padding.only(top=5)
                             ),
                         ],
                     ),
                     width=self.page.window_width/2,
                     height=self.page.window_height*0.25,
-                    # bgcolor="blue",
+                    #bgcolor="blue",
                     alignment=alignment.center,
-                    padding=padding.only(right=20, top=100)
+                    padding=padding.only(right=20, top=10)
                 ),
                 ],
-                expand=True
+                #expand=True
             # wrap=True,
         )
 
@@ -332,11 +404,13 @@ def main(page: Page):
             ],
         ),
         ],
-        expand=True,
+        #expand=True,
         )
     )
 
+    
     page.update()
+    atexit.register(shutdown)
 
 
 if __name__ == "__main__":

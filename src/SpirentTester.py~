@@ -64,7 +64,7 @@ class SpirentTester:
         with open(f'..\\lib\\{self.filename}_log.txt', 'r') as f:
             log = f.readlines()
             for line in log:
-                if 'ERROR' in line:
+                if 'ERROR -' in line:
                     errormsg = ""
                     errline = ""
                     while 'INFO' not in errline:
