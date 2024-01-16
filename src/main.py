@@ -204,27 +204,27 @@ class ZoneOne:
                           self.text_c,
                           self.port_status_row_d,
                           self.text_d,
-                          Container(
-                              content=Column(
-                                  controls=[
-                                      self.logo
-                                  ]
-                              ),
-                              width=self.page.window_width/3,
-                              height=175,
-                              alignment=alignment.center_left,
-                              #bgcolor="red"
-                          )
                       ],
                       spacing=0,
                     ),
                     width=self.page.window_width/2,
-                    height=self.page.window_height*0.75,
-                    #padding=padding.only(top=10),
-                    #bgcolor="black",
-                   )
+                    height=self.page.window_height*0.65,
+                    padding=padding.only(top=10),
+                    # bgcolor="black",
+                   ),
+                Container(
+                    content=Column(
+                        controls=[
+                            self.logo
+                        ]
+                    ),
+                    width=self.page.window_width/3,
+                    height=175,
+                    alignment=alignment.top_left,
+                    # bgcolor="red"
+                )
                 ],
-                #expand=True
+                expand=True
                 # wrap=True,
         )
     
@@ -273,7 +273,7 @@ class ZoneTwo:
                     #bgcolor="green"
                 ), 
                 ],
-                #expand=True
+                # expand=True
         )
     
 class ZoneThree:
@@ -285,8 +285,6 @@ class ZoneThree:
         self.window_manager = WindowManager(self.window, self.page)
         self.spirent_tester = SpirentTester()
         self.results_manager = ResultsManager()
-        #self.ps = PowerSupply()
-        #self.ps.on_power_supply(1, 24)
         self.start_proc()
         self.test_btn =  ElevatedButton(
                             style=ButtonStyle(
@@ -327,7 +325,6 @@ class ZoneThree:
         print("Killing status processes")
         kill_flag = True
         self.test_btn.text="TESTING"
-        #self.ps.on_power_supply(1, 24)
         time.sleep(3)
 
         var_arr = [self.class_name.text_a, self.class_name.text_b, self.class_name.text_c, self.class_name.text_d]
@@ -355,7 +352,6 @@ class ZoneThree:
         except TypeError:
             pass
 
-        #self.ps.off_power_supply(1)
 
         self.test_btn.text="Start Spirent Test"
         self.page.update()
@@ -375,7 +371,7 @@ class ZoneThree:
                                 ),
                                 width=300,
                                 height=100, 
-                                #bgcolor="black",
+                                # bgcolor="black",
                                 alignment=alignment.center,
                                 # padding=40
                                 padding=padding.only(top=5)
@@ -384,12 +380,12 @@ class ZoneThree:
                     ),
                     width=self.page.window_width/2,
                     height=self.page.window_height*0.25,
-                    #bgcolor="blue",
+                    # bgcolor="blue",
                     alignment=alignment.center,
-                    padding=padding.only(right=20, top=10)
+                    padding=padding.only(right=20, top=30)
                 ),
                 ],
-                #expand=True
+                # expand=True
             # wrap=True,
         )
 
@@ -414,7 +410,7 @@ def main(page: Page):
             ],
         ),
         ],
-        #expand=True,
+        expand=True,
         )
     )
 
