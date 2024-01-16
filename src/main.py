@@ -1,7 +1,7 @@
 from ResultsManager import *
 from SpirentTester import *
 from WindowManager import *
-from PowerSupply import *
+#from PowerSupply import *
 from LinkStatus import *
 from flet import *
 from dict import *
@@ -16,8 +16,8 @@ __location__ = os.path.dirname(os.path.realpath(__file__))
 kill_flag = False
 
 
-ps = PowerSupply()
-ps.on_power_supply(1, 24)
+# ps = PowerSupply()
+# ps.on_power_supply(1, 24)
 
 def run_tcl():
     global kill_flag
@@ -71,7 +71,7 @@ def file_rw(z1):
 def shutdown():
     global kill_flag
     global ps
-    ps.off_power_supply(1)
+    # ps.off_power_supply(1)
     kill_flag = True
     time.sleep(1)
     os.remove(f"{__location__}\\linkstatus.dat")
@@ -204,27 +204,38 @@ class ZoneOne:
                           self.text_c,
                           self.port_status_row_d,
                           self.text_d,
-                          Container(
-                              content=Column(
-                                  controls=[
-                                      self.logo
-                                  ]
-                              ),
-                              width=self.page.window_width/3,
-                              height=175,
-                              alignment=alignment.center_left,
-                              #bgcolor="red"
-                          )
+                        #   Container(
+                        #       content=Column(
+                        #           controls=[
+                        #               self.logo
+                        #           ]
+                        #       ),
+                        #       width=self.page.window_width/3,
+                        #       height=175,
+                        #       alignment=alignment.center_left,
+                        #       bgcolor="red"
+                        #   )
                       ],
                       spacing=0,
                     ),
                     width=self.page.window_width/2,
-                    height=self.page.window_height*0.75,
-                    #padding=padding.only(top=10),
-                    #bgcolor="black",
-                   )
+                    height=self.page.window_height*0.65,
+                    padding=padding.only(top=10),
+                    # bgcolor="black",
+                   ),
+                Container(
+                    content=Column(
+                        controls=[
+                            self.logo
+                        ]
+                    ),
+                    width=self.page.window_width/3,
+                    height=175,
+                    alignment=alignment.top_left,
+                    # bgcolor="red"
+                )
                 ],
-                #expand=True
+                expand=True
                 # wrap=True,
         )
     
@@ -273,7 +284,7 @@ class ZoneTwo:
                     #bgcolor="green"
                 ), 
                 ],
-                #expand=True
+                # expand=True
         )
     
 class ZoneThree:
@@ -285,9 +296,7 @@ class ZoneThree:
         self.window_manager = WindowManager(self.window, self.page)
         self.spirent_tester = SpirentTester()
         self.results_manager = ResultsManager()
-        #self.ps = PowerSupply()
-        #self.ps.on_power_supply(1, 24)
-        self.start_proc()
+        #self.start_proc()
         self.test_btn =  ElevatedButton(
                             style=ButtonStyle(
                                 bgcolor={
@@ -375,7 +384,7 @@ class ZoneThree:
                                 ),
                                 width=300,
                                 height=100, 
-                                #bgcolor="black",
+                                # bgcolor="black",
                                 alignment=alignment.center,
                                 # padding=40
                                 padding=padding.only(top=5)
@@ -384,12 +393,12 @@ class ZoneThree:
                     ),
                     width=self.page.window_width/2,
                     height=self.page.window_height*0.25,
-                    #bgcolor="blue",
+                    # bgcolor="blue",
                     alignment=alignment.center,
-                    padding=padding.only(right=20, top=10)
+                    padding=padding.only(right=20, top=30)
                 ),
                 ],
-                #expand=True
+                # expand=True
             # wrap=True,
         )
 
@@ -414,7 +423,7 @@ def main(page: Page):
             ],
         ),
         ],
-        #expand=True,
+        expand=True,
         )
     )
 
