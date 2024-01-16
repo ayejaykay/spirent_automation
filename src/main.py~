@@ -1,6 +1,7 @@
+from ResultsManager import *
 from SpirentTester import *
 from WindowManager import *
-from ResultsManager import *
+from PowerSupply import *
 from LinkStatus import *
 from flet import *
 from dict import *
@@ -13,6 +14,10 @@ import os
 
 __location__ = os.path.dirname(os.path.realpath(__file__))
 kill_flag = False
+
+
+ps = PowerSupply()
+ps.on_power_supply(1, 24)
 
 def run_tcl():
     global kill_flag
@@ -65,6 +70,8 @@ def file_rw(z1):
 
 def shutdown():
     global kill_flag
+    global ps
+    ps.off_power_supply(1)
     kill_flag = True
     time.sleep(1)
     os.remove(f"{__location__}\\linkstatus.dat")
@@ -278,6 +285,8 @@ class ZoneThree:
         self.window_manager = WindowManager(self.window, self.page)
         self.spirent_tester = SpirentTester()
         self.results_manager = ResultsManager()
+        #self.ps = PowerSupply()
+        #self.ps.on_power_supply(1, 24)
         self.start_proc()
         self.test_btn =  ElevatedButton(
                             style=ButtonStyle(
@@ -318,6 +327,7 @@ class ZoneThree:
         print("Killing status processes")
         kill_flag = True
         self.test_btn.text="TESTING"
+        #self.ps.on_power_supply(1, 24)
         time.sleep(3)
 
         var_arr = [self.class_name.text_a, self.class_name.text_b, self.class_name.text_c, self.class_name.text_d]
@@ -345,7 +355,7 @@ class ZoneThree:
         except TypeError:
             pass
 
-       
+        #self.ps.off_power_supply(1)
 
         self.test_btn.text="Start Spirent Test"
         self.page.update()
@@ -408,7 +418,6 @@ def main(page: Page):
         )
     )
 
-    
     page.update()
     atexit.register(shutdown)
 
