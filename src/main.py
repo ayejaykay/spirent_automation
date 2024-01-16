@@ -1,7 +1,7 @@
 from ResultsManager import *
 from SpirentTester import *
 from WindowManager import *
-#from PowerSupply import *
+from PowerSupply import *
 from LinkStatus import *
 from flet import *
 from dict import *
@@ -16,8 +16,8 @@ __location__ = os.path.dirname(os.path.realpath(__file__))
 kill_flag = False
 
 
-# ps = PowerSupply()
-# ps.on_power_supply(1, 24)
+ps = PowerSupply()
+ps.on_power_supply(1, 24)
 
 def run_tcl():
     global kill_flag
@@ -71,7 +71,7 @@ def file_rw(z1):
 def shutdown():
     global kill_flag
     global ps
-    # ps.off_power_supply(1)
+    ps.off_power_supply(1)
     kill_flag = True
     time.sleep(1)
     os.remove(f"{__location__}\\linkstatus.dat")
@@ -204,17 +204,6 @@ class ZoneOne:
                           self.text_c,
                           self.port_status_row_d,
                           self.text_d,
-                        #   Container(
-                        #       content=Column(
-                        #           controls=[
-                        #               self.logo
-                        #           ]
-                        #       ),
-                        #       width=self.page.window_width/3,
-                        #       height=175,
-                        #       alignment=alignment.center_left,
-                        #       bgcolor="red"
-                        #   )
                       ],
                       spacing=0,
                     ),
@@ -296,7 +285,7 @@ class ZoneThree:
         self.window_manager = WindowManager(self.window, self.page)
         self.spirent_tester = SpirentTester()
         self.results_manager = ResultsManager()
-        #self.start_proc()
+        self.start_proc()
         self.test_btn =  ElevatedButton(
                             style=ButtonStyle(
                                 bgcolor={
@@ -336,7 +325,6 @@ class ZoneThree:
         print("Killing status processes")
         kill_flag = True
         self.test_btn.text="TESTING"
-        #self.ps.on_power_supply(1, 24)
         time.sleep(3)
 
         var_arr = [self.class_name.text_a, self.class_name.text_b, self.class_name.text_c, self.class_name.text_d]
@@ -364,7 +352,6 @@ class ZoneThree:
         except TypeError:
             pass
 
-        #self.ps.off_power_supply(1)
 
         self.test_btn.text="Start Spirent Test"
         self.page.update()
