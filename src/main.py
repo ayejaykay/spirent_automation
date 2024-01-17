@@ -1,7 +1,7 @@
 from ResultsManager import *
 from SpirentTester import *
 from WindowManager import *
-from PowerSupply import *
+#from PowerSupply import *
 from LinkStatus import *
 from flet import *
 from dict import *
@@ -16,8 +16,8 @@ __location__ = os.path.dirname(os.path.realpath(__file__))
 kill_flag = False
 restart_flag = False
 
-ps = PowerSupply()
-ps.on_power_supply(1, 24)
+#ps = PowerSupply()
+#ps.on_power_supply(1, 24)
 
 def run_tcl():
     global kill_flag
@@ -84,7 +84,7 @@ def file_rw(z1):
 def shutdown():
     global kill_flag
     global ps
-    ps.off_power_supply(1)
+    #ps.off_power_supply(1)
     kill_flag = True
     time.sleep(1)
     os.remove(f"{__location__}\\linkstatus.dat")
