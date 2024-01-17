@@ -14,13 +14,14 @@ import os
 
 __location__ = os.path.dirname(os.path.realpath(__file__))
 kill_flag = False
-
+restart_flag = False
 
 ps = PowerSupply()
 ps.on_power_supply(1, 24)
 
 def run_tcl():
     global kill_flag
+    global restart_flag
     tcl_location = "..\\Tcl\\bin\\tclsh"
     not_running = True
     data = ""
@@ -34,16 +35,24 @@ def run_tcl():
             sp.terminate()
             sp.wait()
             break
+        if restart_flag:
+            print("Killing Subprocess")
+            sp.terminate()
+            sp.wait()
+            not_running = True
+            restart_flag = False
 
+       
 
 
 def file_rw(z1):
     global kill_flag
-    time.sleep(10)
+    global restart_flag
+    time.sleep(5)
     while(1):
         try:
             port_arr = []
-            with open(f"{__location__}\\linkstatus.dat", "r") as fp:
+            with open(f"{__location__}\\linkstatus.dat", "r+") as fp:
                 fp.readline()
                 data = fp.readlines()
                 counter = 0
@@ -51,6 +60,10 @@ def file_rw(z1):
                     counter+=1
                     if "//" in line:
                         port_arr.append((line[6:-1]))
+                    elif "SubscriptionError" in line:
+                        restart_flag = True
+            if restart_flag:
+                os.remove(f"{__location__}\\linkstatus.dat")
             port_num = 0
             for i in spirent_ports:
                 if i in port_arr:

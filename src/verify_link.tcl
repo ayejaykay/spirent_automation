@@ -49,12 +49,17 @@ apply
 #Break here
 
 while {1} {
-set test_status [eval [concat run ]]
+set result [catch {eval [concat run ]} test_status]
+if { $result == 0 } {
 set outfile [open "linkstatus.dat" w]
 puts $outfile $test_status
 close $outfile
-}
-#puts "Test Status:" 
-#puts $test_status
+} else {
+set outfile [open "linkstatus.dat" a]
+puts $outfile SubscriptionError
+close $outfile
 cleanup
-return $test_status
+return
+}
+}
+
