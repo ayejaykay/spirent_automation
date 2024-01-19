@@ -6,6 +6,11 @@ import os
 __location__ = os.path.dirname(os.path.realpath(__file__))
 
 
+test_kill_flag = False
+
+def kill_test():
+    global test_kill_flag
+    test_kill_flag = True
 
 class SpirentTester:
 
@@ -55,9 +60,17 @@ class SpirentTester:
         self.filename = product[textfield_value[7:dle]]
 
     def start_test(self):
+        global test_kill_flag
         try:
-            cmd = f'{self.tcl_location} ..\\lib\\{self.filename}.tcl'
-            subprocess.run(cmd, shell=True, check=True)
+            test_kill_flag = False
+            sp = subprocess.Popen([self.tcl_location, f"..\\lib\\{self.filename}.tcl"])
+            while(sp.poll() is None):
+                if test_kill_flag:
+                    print("Killing Spirent Test Script")
+                    sp.terminate()
+                    sp.wait()
+                    break
+
         except CalledProcessError:
             pass
 

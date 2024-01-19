@@ -1,1 +1,1 @@
-{"patch_tested": "Patch B", "shop_order": "08DEC23NT-5006-DM2-0000$09", "test_passed": false, "test_output": ["13:33:32.698 ERROR - in create: Error during conversion: Cannot convert Location \"\". Expecting a value with //chassisIp/slotNumber/portNumber\n13:33:32.698 INFO  - Disconnected from Server Manager at 127.0.0.1:41732, handles from that session are no longer valid\n"]}
+{"patch_tested": "Patch A", "shop_order": "08DEC23NT-5006-DM2-0000$09", "test_passed": true, "test_output": ["ALL TESTS PASSED"]}

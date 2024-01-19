@@ -5,14 +5,12 @@ import os
 
 __location__ = os.path.dirname(os.path.realpath(__file__))
 
-def print_progress(iteration, total):
-        percent = ("{0:.1f}").format(100 * (iteration / float(total)))
-        filled_length = int(iteration//total)
-        fill = '\u2588'
-        bar = fill * filled_length + '-' * (100 - filled_length)
-        print(f'\rProgress: | {bar} | {percent}% Complete', end = '\r')
-        if iteration == total:
-            print()
+
+test_kill_flag = False
+
+def kill_test():
+    global test_kill_flag
+    test_kill_flag = True
 
 class SpirentTester:
 
@@ -62,9 +60,17 @@ class SpirentTester:
         self.filename = product[textfield_value[7:dle]]
 
     def start_test(self):
+        global test_kill_flag
         try:
-            cmd = f'{self.tcl_location} ..\\lib\\{self.filename}.tcl'
-            subprocess.run(cmd, shell=True, check=True)
+            test_kill_flag = False
+            sp = subprocess.Popen([self.tcl_location, f"..\\lib\\{self.filename}.tcl"])
+            while(sp.poll() is None):
+                if test_kill_flag:
+                    print("Killing Spirent Test Script")
+                    sp.terminate()
+                    sp.wait()
+                    break
+
         except CalledProcessError:
             pass
 

@@ -13,6 +13,10 @@ import time
 import os
 
 __location__ = os.path.dirname(os.path.realpath(__file__))
+
+global test_not_running
+global test_kill_flag
+
 kill_flag = False
 restart_flag = False
 
@@ -85,9 +89,15 @@ def shutdown():
     global kill_flag
     global ps
     ps.off_power_supply(1)
+    time.sleep(1)
+    kill_test()
+    time.sleep(1)
     kill_flag = True
     time.sleep(1)
-    os.remove(f"{__location__}\\linkstatus.dat")
+    try:
+        os.remove(f"{__location__}\\linkstatus.dat")
+    except FileNotFoundError:
+        pass
 
 class ZoneOne:
 
