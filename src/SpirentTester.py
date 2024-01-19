@@ -5,14 +5,7 @@ import os
 
 __location__ = os.path.dirname(os.path.realpath(__file__))
 
-def print_progress(iteration, total):
-        percent = ("{0:.1f}").format(100 * (iteration / float(total)))
-        filled_length = int(iteration//total)
-        fill = '\u2588'
-        bar = fill * filled_length + '-' * (100 - filled_length)
-        print(f'\rProgress: | {bar} | {percent}% Complete', end = '\r')
-        if iteration == total:
-            print()
+
 
 class SpirentTester:
 

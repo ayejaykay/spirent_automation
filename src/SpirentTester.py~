@@ -42,7 +42,9 @@ class SpirentTester:
 
         # Start testing file from CL
         window_manager.write_message_to_window(f"STARTING TEST for {textfield_value}")
+        window_manager.start_progress_bar()
         self.start_test()
+        window_manager.stop_progress_bar()
 
         window_manager.write_message_to_window(f"Test results for {textfield_value}")
         # Read results from exported file from test
