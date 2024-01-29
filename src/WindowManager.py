@@ -1,4 +1,9 @@
-from flet import Page, Text, ProgressBar
+import os
+
+try:
+    from flet import Page, Text, ProgressBar
+except ImportError:
+    os.system("pip install flet")
 
 class WindowManager:
 

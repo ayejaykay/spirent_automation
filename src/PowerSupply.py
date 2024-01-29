@@ -1,8 +1,24 @@
-import pyvisa
+# import pyvisa 
 import time
+import os
+
+try:
+    import pyvisa
+except ImportError:
+    os.system("pip install pyvisa") 
 
 # I think that if there is not NI-VISA on the computer we are using for testing
 # then we are going to have to install it at NI Website --> https://www.ni.com/en/support/downloads/drivers/download/packaged.ni-visa.494653.html
+
+####################### PowerSupply #####################
+# Description:  This class controls the DC power supply #
+#               that powers the UUT. We are using the   #
+#               pyvisa library to send SCPI commands    #
+# Params:                                               #
+#   - None                                              #
+# Returns:                                              #
+#   - Class reference object                            #
+#########################################################
 
 class PowerSupply:
 
@@ -25,11 +41,30 @@ class PowerSupply:
         print(f'Instrument Information: {self.instrument.query('*IDN?')}')
         self.init_power_supply()
 
+    ################ init_power_supply ################
+    # Description:  Initializes the power supply to   #
+    #               turn on.                          #
+    # Params:                                         #
+    #   - None                                        #
+    # Returns:                                        #
+    #   - None                                        #
+    ###################################################
+
     def init_power_supply(self):
         print('Resetting Instrument...')
         self.instrument.write('*ESE 60;*SRE 48;*CLS')
         print(self.instrument.write('*RST'))
         print('Instrument Reset')
+
+    ################ on_power_supply ##################
+    # Description:  Turns on the power supply channel #
+    #               to code defined voltage.          #
+    # Params:                                         #
+    #   - channel: channel to set voltage on          #
+    #   - value: voltage value to set power supply to #
+    # Returns:                                        #
+    #   - Ouput status of the power supply            #
+    ###################################################
 
     def on_power_supply(self, channel, value):
         print("Turning on power supply...")
@@ -37,6 +72,14 @@ class PowerSupply:
         self.instrument.write(f"VOLT {value}V")
         self.instrument.write("CHAN:OUTP 1")
         return self.instrument.query("OUTP:STAT?")
+
+    ################ off_power_supply #################
+    # Description:  Turns off power supply channel    #
+    # Params:                                         #
+    #   - channel: channel to turn off                #
+    # Returns:                                        #
+    #   - Output status of the power supply           #
+    ###################################################
 
     def off_power_supply(self, channel):
         print("Turning off power supply...")

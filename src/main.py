@@ -2,8 +2,6 @@ from ResultsManager import *
 from SpirentTester import *
 from WindowManager import *
 from PowerSupply import *
-from LinkStatus import *
-from flet import *
 from dict import *
 import subprocess
 import threading
@@ -12,27 +10,47 @@ import queue
 import time
 import os
 
-__location__ = os.path.dirname(os.path.realpath(__file__))
+try:
+    from flet import *
+except ImportError:
+    os.system("pip install flet")
 
-global test_not_running
-global test_kill_flag
+__location__ = os.path.dirname(os.path.realpath(__file__)) # Path to current working directory where app is running from
 
-kill_flag = False
-restart_flag = False
+# global test_kill_flag
 
-ps = PowerSupply()
-ps.on_power_supply(1, 24)
+kill_flag = False # Kills TCC polling function that checks which ports are online
+restart_flag = False # Restarts the polling script once we reach the subscription error from spirent.  max is 32 
+
+ps = PowerSupply() # Inititalizes the power supply when the application starts
+ps.on_power_supply(1, 24) # Turns on the power supply to 24VDC right after initialization
+
+########################### run_tcl() ##########################
+# Description:                                                 #
+#   - Handles the thread which starts and stops the script     #
+#     which polls the Spirent ports to notify whether or not   #
+#     they are the Spirent ports to notify whether or not they #
+#     are the Spirent ports to notify whether or not they are  #
+#     online.                                                  #
+# Params:                                                      #
+#   - None                                                     #
+# Returns:                                                     #
+#   - None                                                     #
+#                                                              #
+# Notes:                                                       #
+#   - kill_flag is set during shutdown and button click        #
+#   - restart_flag is set when file_rw reads subscription err  #
+################################################################
 
 def run_tcl():
     global kill_flag
     global restart_flag
-    tcl_location = "..\\Tcl\\bin\\tclsh"
+    tcl_location = "..\\Tcl\\bin\\tclsh" # Path to tclsh.exe 
     not_running = True
-    data = ""
     while(1):
         if not_running:
             print("Starting Test Script")
-            sp = subprocess.Popen([tcl_location, "verify_link.tcl"])
+            sp = subprocess.Popen([tcl_location, "verify_link.tcl"]) # Tcl script to verify online ports
             not_running = False
         if kill_flag:
             print("Killing Subprocess")
@@ -43,10 +61,23 @@ def run_tcl():
             print("Killing Subprocess")
             sp.terminate()
             sp.wait()
-            not_running = True
+            not_running = True # Set to true so that the subprocess starts again
             restart_flag = False
 
        
+########################## file_rw() #########################
+# Description:                                               #
+#   - Reads from linkstatus.dat which is written to by       #
+#     verify_link.tcl which checks whether the port is       #
+#     online or offline.  This function will also call the   #
+#     functions which toggle the port status elements on the #
+#     UI.                                                    #
+# Params:                                                    #
+#   - z1: Reference to the ZoneOne class where the port      #
+#         status elements are.                               #
+# Returns:                                                   #
+#   - None                                                   #
+##############################################################
 
 
 def file_rw(z1):
@@ -56,16 +87,16 @@ def file_rw(z1):
     while(1):
         try:
             port_arr = []
-            with open(f"{__location__}\\linkstatus.dat", "r+") as fp:
-                fp.readline()
-                data = fp.readlines()
-                counter = 0
-                for line in data:
+            with open(f"{__location__}\\linkstatus.dat", "r+") as fp: # File created by verify_link.tcl
+                fp.readline() # Skip the first line
+                data = fp.readlines() # Read the rest of the file
+                counter = 0 # Index for traversing each line individually 
+                for line in data: 
                     counter+=1
-                    if "//" in line:
+                    if "//" in line: # Info written to file shows which ports are offline.  We are looking for the // which starts the port ID
                         port_arr.append((line[6:-1]))
-                    elif "SubscriptionError" in line:
-                        restart_flag = True
+                    elif "SubscriptionError" in line: # This error is printed to file if we hit max subscriptions in verify_link.tcl
+                        restart_flag = True # If we hit the max subscriptions, we want to kill the script and restart it
             if restart_flag:
                 os.remove(f"{__location__}\\linkstatus.dat")
             port_num = 0
@@ -84,6 +115,18 @@ def file_rw(z1):
             print("Waiting on file write")
             time.sleep(3)
 
+#################### shutdown ####################
+# Description:  Turns off anything running as a  #
+#               result of the application. Any   #
+#               thread and the power supply when #
+#               the user exits the application.  #
+#               Defined in main() with           #
+#               atexit.register                  #
+# Params:                                        #
+#   - None                                       #
+# Returns:                                       #
+#   - None                                       #
+##################################################
 
 def shutdown():
     global kill_flag
@@ -98,6 +141,15 @@ def shutdown():
         os.remove(f"{__location__}\\linkstatus.dat")
     except FileNotFoundError:
         pass
+
+###################### ZoneOne ######################
+# Description: UI zone which coveres the text boxes #
+#              and the logo in bottom left corner.  #
+# Params:                                           #
+#   - page: Reference to Flet page object           #
+# Returns:                                          #
+#   - Class reference                               #
+#####################################################
 
 class ZoneOne:
 
@@ -198,20 +250,63 @@ class ZoneOne:
             spacing=5,
         )
 
+    ##################### fill_bubble_array() #####################
+    # Description:  The port status bubbles are identified using  #
+    #               an array, where each port address corresponds #
+    #               to an index in an array. The index for each   #
+    #               is static, and set by the "spirent_ports"     #
+    #               dictionary in dict.py.  We will read the port #
+    #               as "//10.11.3.1/X/Y" which will map to an     #
+    #               index which correspond to that object on the  #
+    #               UI.                                           #
+    # Params:                                                     #
+    #   - None                                                    #
+    # Returns:                                                    #
+    #   - None                                                    #
+    ###############################################################
+
     def fill_bubble_arr(self):
         for i in range(32):
             self.status_bubbles.append(Icon(name=icons.CIRCLE_OUTLINED, color=colors.BLACK))
+
+    ######################## set_online() #########################
+    # Description:  Turns the port green if it is online when the #
+    #               function is called in file_rw().              #
+    # Params:                                                     #
+    #   - index:    value obtained from "spirent_ports" list that #
+    #               maps port string to array index.              #
+    # Returns:                                                    #
+    #   - None                                                    #
+    ###############################################################
 
     def set_online(self, index):
         self.status_bubbles[index].name = icons.CIRCLE_ROUNDED
         self.status_bubbles[index].color = colors.GREEN
         self.page.update()
 
+    ######################## set_offline() #########################
+    # Description:  Turns the port blank if it is offline when the #
+    #               function is called in file_rw().               #
+    # Params:                                                      #
+    #   - index:    value obtained from "spirent_ports" list that  #
+    #               maps port string to array index.               #
+    # Returns:                                                     #
+    #   - None                                                     #
+    ################################################################
+
     def set_offline(self, index):
         self.status_bubbles[index].name = icons.CIRCLE_OUTLINED
         self.status_bubbles[index].color = colors.BLACK
         self.page.update()
 
+    ########################## build_zone_1 ########################
+    # Description:  Sets UI structure for all of ZoneOne, and      #
+    #               assigns each element its corresponding function#
+    # Params:                                                      #
+    #   - None                                                     #
+    # Returns:                                                     #
+    #   - Column()                                                 #
+    ################################################################
 
     def build_zone_1(self):
         return Column(
@@ -252,7 +347,15 @@ class ZoneOne:
         )
     
 
-
+########################## ZoneTwo ###########################
+# Description:  ZoneTwo holds the ListView object which      #
+#               outputs status of testing to the user on the #
+#               UI.                                          #
+# Params:                                                    #
+#   - page: reference to Flet page object                    #
+# Returns:                                                   #
+#   - class reference object                                 #
+##############################################################
 
 class ZoneTwo:
 
@@ -260,6 +363,14 @@ class ZoneTwo:
         self.page = page
         self.lv = ListView(expand=1, spacing=10, auto_scroll=True)
         
+    ######################### build_zone_2 #########################
+    # Description:  Sets UI structure for all of ZoneTwo, and      #
+    #               assigns each element its corresponding function#
+    # Params                                                       #
+    #   - None                                                     #
+    # Returns                                                      #
+    #   - Column()                                                 #
+    ################################################################
 
     def build_zone_2(self):
         return Column(
@@ -298,17 +409,30 @@ class ZoneTwo:
                 ],
                 # expand=True
         )
-    
+
+
+########################## ZoneThree #########################
+# Description:  ZoneThree holds the button object which      #
+#               starts the testing process on the UI         #
+# Params:                                                    #
+#   - page: reference to Flet page object                    #
+#   - classname: reference to ZoneOne class object           #
+#   - window: reference to the ListView object in ZoneTwo    #
+# Returns:                                                   #
+#   - class reference object                                 #
+##############################################################
+
+
 class ZoneThree:
 
     def __init__(self, page, classname, window) -> None:
         self.page = page
         self.window = window
         self.class_name = classname
-        self.window_manager = WindowManager(self.window, self.page)
-        self.spirent_tester = SpirentTester()
-        self.results_manager = ResultsManager()
-        self.start_proc()
+        self.window_manager = WindowManager(self.window, self.page) # Holds functions for ListView object
+        self.spirent_tester = SpirentTester() # Handles functions related to testing scripts 
+        self.results_manager = ResultsManager() # Handles results of testing.  
+        self.start_proc() # Starts the polling threads run_tcl() and file_rw()
         self.test_btn =  ElevatedButton(
                             style=ButtonStyle(
                                 bgcolor={
@@ -335,18 +459,36 @@ class ZoneThree:
                             #bgcolor=colors.GREY_50
                         )
 
+    ###################### start_proc ######################
+    # Description:  Starts threads for polling status of   #
+    #               Spirent ports, run_tcl() and file_rw() #
+    # Params:                                              #
+    #   - None                                             #
+    # Returns:                                             #
+    #   - None                                             #
+    ########################################################
    
     def start_proc(self):
         global kill_flag
         kill_flag = False
-        t1 = threading.Thread(target=run_tcl, daemon=True).start()
-        t2 = threading.Thread(target=file_rw, args=(self.class_name,), daemon=True).start()
+        t1 = threading.Thread(target=run_tcl, daemon=True).start() # Creates and starts run_tcl()
+        t2 = threading.Thread(target=file_rw, args=(self.class_name,), daemon=True).start() # Creates and starts file_rw()
         print("Threads started")
+
+    ####################### btn_click ######################
+    # Description:  Function to start testing when button  #
+    #               is clicked.                            #
+    # Params:                                              #
+    #   - e: required by Flet to be a parameter to any     #
+    #        function assigned to button                   #
+    # Returns:                                             #
+    #   - None                                             #
+    ########################################################
 
     def btn_click(self, e):
         global kill_flag
         print("Killing status processes")
-        kill_flag = True
+        kill_flag = True # Sets kill_flag which will cause port polling threads to stop running in file_rw()
         self.test_btn.text="TESTING"
         time.sleep(3)
 
@@ -360,9 +502,6 @@ class ZoneThree:
             else:
                 valid_fields.append(i)
 
-
-       
-
         self.page.update()
         arr = []
         try:
@@ -375,10 +514,18 @@ class ZoneThree:
         except TypeError:
             pass
 
-
         self.test_btn.text="Start Spirent Test"
         self.page.update()
         self.start_proc()
+
+    ######################### build_zone_3 #########################
+    # Description:  Sets UI structure for all of ZoneThree, and    #
+    #               assigns each element its corresponding function#
+    # Params                                                       #
+    #   - None                                                     #
+    # Returns                                                      #
+    #   - Column()                                                 #
+    ################################################################
 
     def build_zone_3(self):
         return Column(
