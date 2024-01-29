@@ -5,9 +5,12 @@ from PowerSupply import *
 from dict import *
 import subprocess
 import threading
+import logging
+import argparse
 import atexit
 import queue
 import time
+import sys
 import os
 
 try:
@@ -16,6 +19,16 @@ except ImportError:
     os.system("pip install flet")
 
 __location__ = os.path.dirname(os.path.realpath(__file__)) # Path to current working directory where app is running from
+
+parser = argparse.ArgumentParser("Spirent Automation Debug")
+
+parser.add_argument('-d', '--debug', action='store_true')
+
+args = parser.parse_args()
+
+yellow = "\x1b[33;20m"
+red = "\x1b[31;20m"
+reset = "\x1b[0m"
 
 # global test_kill_flag
 
@@ -564,6 +577,15 @@ class ZoneThree:
 
 def main(page: Page):
     page.title = "Spirent Automation"
+
+    if args.debug:
+        logging.basicConfig(stream=sys.stdout, format='%(process)d  %(levelname)s\t%(message)s', level=logging.DEBUG)
+        logging.debug("_______DEBUG_______")
+    else:
+        # logging.basicConfig(stream=sys.stdout, format= red + '%(process)d  %(levelname)s\t%(message)s' + reset, level=logging.ERROR)
+        logging.basicConfig(stream=sys.stdout, format='%(process)d  %(levelname)s\t%(message)s', level=logging.INFO)
+
+
 
     z1 = ZoneOne(page)
     z2 = ZoneTwo(page)
