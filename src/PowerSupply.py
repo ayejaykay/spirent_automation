@@ -1,4 +1,5 @@
 # import pyvisa 
+import logging
 import time
 import os
 
@@ -26,10 +27,12 @@ class PowerSupply:
         self.rm = pyvisa.ResourceManager() # We can specify this with the path to the NI-VISA library
         
         if self.rm == None:
-            print("ERROR: NO PATH TO VISA LIBRARY")
+            # print("ERROR: NO PATH TO VISA LIBRARY")
+            logging.error("NO PATH TO VISA LIBRARY")
             return
         
-        print(f"Path to VISA Library: {self.rm}")
+        # print(f"Path to VISA Library: {self.rm}")
+        logging.info(f"Path to VISA Library: {self.rm}")
 
         self.power_supply_id = 'USB0::0xFFFF::0x9130::802359043757410053::INSTR'
 
@@ -38,7 +41,9 @@ class PowerSupply:
         self.instrument.read_termination = '\n'
         self.instrument.write_termination = '\n'
 
-        print(f'Instrument Information: {self.instrument.query('*IDN?')}')
+        # print(f'Instrument Information: {self.instrument.query('*IDN?')}')
+        logging.info(f'Instrument Information: {self.instrument.query('*IDN?')}')
+
         self.init_power_supply()
 
     ################ init_power_supply ################
@@ -51,10 +56,13 @@ class PowerSupply:
     ###################################################
 
     def init_power_supply(self):
-        print('Resetting Instrument...')
+        # print('Resetting Instrument...')
+        logging.info('Resetting Instrument...')
         self.instrument.write('*ESE 60;*SRE 48;*CLS')
-        print(self.instrument.write('*RST'))
-        print('Instrument Reset')
+        # print(self.instrument.write('*RST'))
+        logging.info(self.instrument.write('*RST'))
+        # print('Instrument Reset')
+        logging.info('Instrument Reset')
 
     ################ on_power_supply ##################
     # Description:  Turns on the power supply channel #
@@ -67,7 +75,8 @@ class PowerSupply:
     ###################################################
 
     def on_power_supply(self, channel, value):
-        print("Turning on power supply...")
+        # print("Turning on power supply...")
+        logging.info("Turning on power supply...")
         self.instrument.write(f"INST CH{channel}")
         self.instrument.write(f"VOLT {value}V")
         self.instrument.write("CHAN:OUTP 1")
@@ -82,7 +91,8 @@ class PowerSupply:
     ###################################################
 
     def off_power_supply(self, channel):
-        print("Turning off power supply...")
+        # print("Turning off power supply...")
+        logging.info("Turning off power supply...")
         self.instrument.write(f"INST CH{channel}")
         self.instrument.write(f"VOLT 0V")
         self.instrument.write("CHAN:OUTP 0")
