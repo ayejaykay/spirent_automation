@@ -1,6 +1,7 @@
 from subprocess import CalledProcessError
 from dict import *
 import subprocess
+import logging
 import os
 
 __location__ = os.path.dirname(os.path.realpath(__file__)) # Path to current working directory where app is running from
@@ -61,7 +62,8 @@ class SpirentTester:
             window_manager.write_message_to_window("Getting test file")
             self.get_testing_file(textfield_value)
         except KeyError:
-            print("ERROR: Could not find test file")
+            # print("ERROR: Could not find test file")
+            logging.error("ERROR: Could not find test file")
             window_manager.write_message_to_window("ERROR: Could not find test file")
             return
 
@@ -90,6 +92,7 @@ class SpirentTester:
     ################################################################
 
     def write_configuration(self):
+        logging.debug("Writing Configuration")
         config_data = patch[self.textfield][file_num_ports[self.filename]]
         with open('..\\config\\config.dat', 'w') as f:
             f.write(config_data)
@@ -104,6 +107,7 @@ class SpirentTester:
     ###################################################################
 
     def get_testing_file(self, textfield_value):
+        logging.debug("Getting test file")
         dle = textfield_value.find('$')
         self.filename = product[textfield_value[7:dle]]
 
@@ -120,13 +124,15 @@ class SpirentTester:
     ####################################################################
 
     def start_test(self):
+        logging.debug("Starting Test")
         global test_kill_flag
         try:
             test_kill_flag = False
             sp = subprocess.Popen([self.tcl_location, f"..\\lib\\{self.filename}.tcl"])
             while(sp.poll() is None):
                 if test_kill_flag:
-                    print("Killing Spirent Test Script")
+                    # print("Killing Spirent Test Script")
+                    logging.info("Killing Spirent Test Script")
                     sp.terminate()
                     sp.wait()
                     break
@@ -146,6 +152,7 @@ class SpirentTester:
     ###################################################################
 
     def read_results(self):
+        logging.debug("Reading Result")
         counter=0
         errors_arr = []
         with open(f'..\\lib\\{self.filename}_log.txt', 'r') as f:
