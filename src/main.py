@@ -280,7 +280,7 @@ class ZoneOne:
 
     def fill_bubble_arr(self):
         for i in range(32):
-            self.status_bubbles.append(Icon(name=icons.CIRCLE_OUTLINED, color=colors.BLACK))
+            self.status_bubbles.append(Icon(name=icons.CIRCLE_OUTLINED, color=colors.BLACK, size=20))
 
     ######################## set_online() #########################
     # Description:  Turns the port green if it is online when the #
