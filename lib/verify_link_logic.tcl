@@ -1,5 +1,5 @@
 # Spirent TestCenter Logic Script
-# Generated on Tue Jan 09 08:06:15 2024 by NTtest
+# Generated on Tue Jan 09 08:07:29 2024 by NTtest
 # Framework ver. 4.70.9706.0000
 #
 # Comments: 
@@ -6468,13 +6468,13 @@ proc run {} {
         -interval 1 -filenamePrefix "verify_link-0001-generatorportresults"
 
     # Subscribe to results for result query verify_link-0002-analyzerportresults
-    stc::subscribe -parent [lindex [stc::get system1 -children-Project] 0] \
-        -resultParent " [lindex [stc::get system1 -children-Project] 0] " \
-        -configType analyzer \
-        -resultType analyzerportresults \
-        -filterList "" \
-        -viewAttributeList "totalframecount totaloctetcount sigframecount undersizeframecount oversizeframecount jumboframecount minframelength maxframelength pauseframecount totalframerate totaloctetrate sigframerate undersizeframerate oversizeframerate jumboframerate pauseframerate fcserrorframecount ipv4checksumerrorcount tcpchecksumerrorcount udpchecksumerrorcount prbsfilloctetcount prbsbiterrorcount fcserrorframerate ipv4checksumerrorrate tcpchecksumerrorrate udpchecksumerrorrate prbsfilloctetrate prbsbiterrorrate ipv4framecount ipv6framecount ipv6overipv4framecount tcpframecount udpframecount mplsframecount icmpframecount vlanframecount ipv4framerate ipv6framerate ipv6overipv4framerate tcpframerate udpframerate mplsframerate icmpframerate vlanframerate trigger1count trigger1rate trigger2count trigger2rate trigger3count trigger3rate trigger4count trigger4rate trigger5count trigger5rate trigger6count trigger6rate trigger7count trigger7rate trigger8count trigger8rate combotriggercount combotriggerrate totalbitrate prbsbiterrorratio vlanframerate l1bitcount l1bitrate pfcframecount fcoeframecount pfcframerate fcoeframerate pfcpri0framecount pfcpri1framecount pfcpri2framecount pfcpri3framecount pfcpri4framecount pfcpri5framecount pfcpri6framecount pfcpri7framecount pfcpri0quanta pfcpri1quanta pfcpri2quanta pfcpri3quanta pfcpri4quanta pfcpri5quanta pfcpri6quanta pfcpri7quanta prbserrorframecount prbserrorframerate userdefinedframecount1 userdefinedframerate1 userdefinedframecount2 userdefinedframerate2 userdefinedframecount3 userdefinedframerate3 userdefinedframecount4 userdefinedframerate4 userdefinedframecount5 userdefinedframerate5 userdefinedframecount6 userdefinedframerate6 l1bitratepercent outseqframecount preambletotalbytes preambleminlength preamblemaxlength droppedframecount inorderframecount reorderedframecount duplicateframecount lateframecount firstarrivaltime lastarrivaltime " \
-        -interval 1 -filenamePrefix "verify_link-0002-analyzerportresults"
+    #stc::subscribe -parent [lindex [stc::get system1 -children-Project] 0] \
+     #   -resultParent " [lindex [stc::get system1 -children-Project] 0] " \
+      #  -configType analyzer \
+       # -resultType analyzerportresults \
+        #-filterList "" \
+        #-viewAttributeList "totalframecount totaloctetcount sigframecount undersizeframecount oversizeframecount jumboframecount minframelength maxframelength pauseframecount totalframerate totaloctetrate sigframerate undersizeframerate oversizeframerate jumboframerate pauseframerate fcserrorframecount ipv4checksumerrorcount tcpchecksumerrorcount udpchecksumerrorcount prbsfilloctetcount prbsbiterrorcount fcserrorframerate ipv4checksumerrorrate tcpchecksumerrorrate udpchecksumerrorrate prbsfilloctetrate prbsbiterrorrate ipv4framecount ipv6framecount ipv6overipv4framecount tcpframecount udpframecount mplsframecount icmpframecount vlanframecount ipv4framerate ipv6framerate ipv6overipv4framerate tcpframerate udpframerate mplsframerate icmpframerate vlanframerate trigger1count trigger1rate trigger2count trigger2rate trigger3count trigger3rate trigger4count trigger4rate trigger5count trigger5rate trigger6count trigger6rate trigger7count trigger7rate trigger8count trigger8rate combotriggercount combotriggerrate tot#albitrate prbsbiterrorratio vlanframerate l1bitcount l1bitrate pfcframecount fcoeframecount pfcframerate fcoeframerate pfcpri0framecount pfcpri1framecount pfcpri2framecount pfcpri3framecount pfcpri4framecount pfcpri5framecount pfcpri6framecount pfcpri7framecount pfcpri0quanta pfcpri1quanta pfcpri2quanta pfcpri3quanta pfcpri4quanta pfcpri5quanta pfcpri6quanta pfcpri7quanta prbserrorframecount prbserrorframerate userdefinedframecount1 userdefinedframerate1 userdefinedframecount2 userdefinedframerate2 userdefinedframecount3 userdefinedframerate3 userdefinedframecount4 userdefinedframerate4 userdefinedframecount5 userdefinedframerate5 userdefinedframecount6 userdefinedframerate6 l1bitratepercent outseqframecount preambletotalbytes preambleminlength preamblemaxlength droppedframecount inorderframecount reorderedframecount duplicateframecount lateframecount firstarrivaltime lastarrivaltime " \
+        #-interval 1 -filenamePrefix "verify_link-0002-analyzerportresults"
 
     # Start the sequencer
     stc::perform sequencerStart

@@ -1,5 +1,5 @@
 # Spirent TestCenter Launcher Script
-# Generated on Tue Jan 09 08:06:15 2024 by NTtest
+# Generated on Tue Jan 02 15:01:28 2024 by NTtest
 # Framework ver. 4.70.9706.0000
 #
 # Comments: 
@@ -40,18 +40,26 @@
 
 source [ file normalize [ file join [ file dirname [ info script ] ] {verify_link_logic.tcl} ] ]
 
-
-init
-config [list "//10.11.1.3/1/1" "//10.11.1.3/1/2" "//10.11.1.3/1/3" "//10.11.1.3/1/4" "//10.11.1.3/1/5" "//10.11.1.3/1/6" "//10.11.1.3/1/7" "//10.11.1.3/1/8" ]
+#init
+config [list "//10.11.1.3/1/1" "//10.11.1.3/1/2" "//10.11.1.3/1/3" "//10.11.1.3/1/4" "//10.11.1.3/1/5" "//10.11.1.3/1/6" "//10.11.1.3/1/7" "//10.11.1.3/1/8"]
 configResultLocation [ file normalize [ file dirname [ info script ] ] ]
 configMiscOptions
 connect
 apply
+#Break here
+
 while {1} {
-set test_status [eval [concat run ]]
-set outfile [open "..//src//linkstatus.dat" w]
+set result [catch {eval [concat run ]} test_status]
+if { $result == 0 } {
+set outfile [open "linkstatus.dat" w]
 puts $outfile $test_status
 close $outfile
-}
+} else {
+set outfile [open "linkstatus.dat" a]
+puts $outfile SubscriptionError
+close $outfile
 cleanup
-return $test_status
+return
+}
+}
+
