@@ -5,6 +5,7 @@ try:
 except ImportError:
     os.system("pip install flet")
 
+__location__ = os.path.dirname(os.path.realpath(__file__))
 
 ###################### ZoneOne ######################
 # Description: UI zone which coveres the text boxes #

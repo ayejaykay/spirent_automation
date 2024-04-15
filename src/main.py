@@ -6,10 +6,11 @@ from ZoneThree import *
 from ZoneOne import *
 from ZoneTwo import *
 from dict import *
+import global_vars
 import subprocess
 import threading
-import logging
 import argparse
+import logging
 import atexit
 import queue
 import time
@@ -24,6 +25,8 @@ except ImportError:
 
 __location__ = os.path.dirname(os.path.realpath(__file__)) # Path to current working directory where app is running from
 
+global_vars.init()
+
 # Argument definition to run in debug mode.  It is optional argument
 parser = argparse.ArgumentParser("Spirent Automation Debug")
 
@@ -36,12 +39,11 @@ yellow = "\x1b[33;20m"
 red = "\x1b[31;20m"
 reset = "\x1b[0m"
 
+global_vars.kill_flag = False # Kills TCC polling function that checks which ports are online
+global_vars.restart_flag = False # Restarts the polling script once we reach the subscription error from spirent.  max is 32 
 
-kill_flag = False # Kills TCC polling function that checks which ports are online
-restart_flag = False # Restarts the polling script once we reach the subscription error from spirent.  max is 32 
-
-ps = PowerSupply() # Inititalizes the power supply when the application starts
-ps.on_power_supply(1, 24) # Turns on the power supply to 24VDC right after initialization
+global_vars.ps = PowerSupply() # Inititalizes the power supply when the application starts
+global_vars.ps.on_power_supply(1, 24) # Turns on the power supply to 24VDC right after initialization
 
 # Main Function
 def main(page: Page):
