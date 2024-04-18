@@ -30,7 +30,6 @@ def configure_spirent():
 def write_config_file(patch_id):
     with open("..\\config\\config.dat", 'w') as fp:
         for i in patch[patch_id]:
-            print("Deal " + i)
             fp.write(f'{i} ')
 
 
