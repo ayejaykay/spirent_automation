@@ -52,3 +52,6 @@ does that I do not.  I can only assume it is because it is being called using
 tclsh that it has access to my pkgIndex file and does everything I need it to
 do. 
 
+Why does 4Port_100M_Burst_logic not have the rx and tx summary results that I care about?
+I might have to add these in manually if that test is not running correctly
+	- Update: I made this change premptively

@@ -26,8 +26,9 @@ except ImportError:
 
 class ZoneThree:
 
-    def __init__(self, page, classname, window) -> None:
+    def __init__(self, page, classname, window, patch_id) -> None:
         self.page = page
+        self.patch_id = patch_id
         self.window = window
         self.class_name = classname
         self.window_manager = WindowManager(self.window, self.page) # Holds functions for ListView object
@@ -73,7 +74,7 @@ class ZoneThree:
         global kill_flag
         kill_flag = False
         t1 = threading.Thread(target=run_tcl, daemon=True).start() # Creates and starts run_tcl()
-        t2 = threading.Thread(target=file_rw, args=(self.class_name,), daemon=True).start() # Creates and starts file_rw()
+        t2 = threading.Thread(target=file_rw, args=(self.class_name,self.patch_id), daemon=True).start() # Creates and starts file_rw()
         print("Threads started")
 
     ####################### btn_click ######################

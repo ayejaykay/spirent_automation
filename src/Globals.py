@@ -1,10 +1,38 @@
 from SpirentTester import *
+from dict import *
 import global_vars
 import subprocess
 import time
 import os
 
 __location__ = os.path.dirname(os.path.realpath(__file__)) # Path to current working directory where app is running from
+
+################# configure_spirent #################
+# Description: Get IP address of Spirent adaptor so #
+#              we can assign the right ports for app#
+# Params:                                           #
+#   - None                                          #
+# Returns:                                          #
+#   - String (IP address of spirent adaptor)        #
+#####################################################
+
+def configure_spirent():
+    os.system("netsh interface ip show config name=\"Spirent\" | findstr \"IP Address:\" > spirent_ip.txt")
+    with open("spirent_ip.txt", "r") as fp:
+        data = fp.readline()
+        ip_arr = str(data).split(" ")
+        ip_str = ip_arr[-1]
+        spirent_ip = ip_str[:ip_str.find("\\n")]
+    os.remove("spirent_ip.txt")
+    return spirent_ip 
+
+
+def write_config_file(patch_id):
+    with open("..\\config\\config.dat", 'w') as fp:
+        for i in patch[patch_id]:
+            print("Deal " + i)
+            fp.write(f'{i} ')
+
 
 ########################### run_tcl() ##########################
 # Description:                                                 #
@@ -59,7 +87,7 @@ def run_tcl():
 ##############################################################
 
 
-def file_rw(z1):
+def file_rw(z1, patch_id):
     time.sleep(5)
     while(1):
         try:
@@ -77,7 +105,7 @@ def file_rw(z1):
             if global_vars.restart_flag:
                 os.remove(f"{__location__}\\linkstatus.dat")
             port_num = 0
-            for i in spirent_ports:
+            for i in patch[patch_id]: #HAVE TO FIGURE OUT HOW TO ENUMERATE PORTS SO WE DO NOT HAVE TO HARD CODE
                 if i in port_arr:
                     #print(f"{i} offline")
                     z1.set_offline(port_num)

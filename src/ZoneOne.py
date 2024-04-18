@@ -1,3 +1,4 @@
+from dict import *
 import os
 
 try:
@@ -6,6 +7,7 @@ except ImportError:
     os.system("pip install flet")
 
 __location__ = os.path.dirname(os.path.realpath(__file__))
+
 
 ###################### ZoneOne ######################
 # Description: UI zone which coveres the text boxes #
@@ -18,11 +20,10 @@ __location__ = os.path.dirname(os.path.realpath(__file__))
 
 class ZoneOne:
 
-    def __init__(self, page) -> None:
-        self.text_a = TextField(label="Patch A", hint_text="Scan Order Number", height=100, border_color="red")
-        self.text_b = TextField(label="Patch B", hint_text="Scan Order Number", height=100, border_color="red")
-        self.text_c = TextField(label="Patch C", hint_text="Scan Order Number", height=100, border_color="red")
-        self.text_d = TextField(label="Patch D", hint_text="Scan Order Number", height=100, border_color="red")
+    def __init__(self, page, patch_id) -> None:
+        self.patch_id = patch_id
+        self.text_a = TextField(label=f"Patch {self.patch_id}", hint_text="Scan Order Number", height=100, border_color="red")
+        self.text_b = TextField(label=f"Patch {self.patch_id}", hint_text="Scan Serial Number", height=100, border_color="red")
         self.logo = Image(src=f"{__location__}\\assets\\logo.png", width=300, height=175, fit=ImageFit.CONTAIN)
         self.page = page
         self.status_bubbles = []
@@ -49,71 +50,6 @@ class ZoneOne:
             spacing=5,
         )
 
-        self.port_status_row_b = Row(
-            [
-                self.status_bubbles[8],
-                Text("//1/1"),
-                self.status_bubbles[9],
-                Text("//1/2"),
-                self.status_bubbles[10],
-                Text("//1/3"),
-                self.status_bubbles[11],
-                Text("//1/4"),
-                self.status_bubbles[12],
-                Text("//1/5"),
-                self.status_bubbles[13],
-                Text("//1/6"),   
-                self.status_bubbles[14],
-                Text("//1/7"),
-                self.status_bubbles[15],
-                Text("//1/8"),
-            ],
-            spacing=5,
-        )
-
-        self.port_status_row_c = Row(
-            [
-                self.status_bubbles[16],
-                Text("//1/1"),
-                self.status_bubbles[17],
-                Text("//1/2"),
-                self.status_bubbles[18],
-                Text("//1/3"),
-                self.status_bubbles[19],
-                Text("//1/4"),
-                self.status_bubbles[20],
-                Text("//1/5"),
-                self.status_bubbles[21],
-                Text("//1/6"),   
-                self.status_bubbles[22],
-                Text("//1/7"),
-                self.status_bubbles[23],
-                Text("//1/8"),
-            ],
-            spacing=5,
-        )
-
-        self.port_status_row_d = Row(
-            [
-                self.status_bubbles[24],
-                Text("//1/1"),
-                self.status_bubbles[25],
-                Text("//1/2"),
-                self.status_bubbles[26],
-                Text("//1/3"),
-                self.status_bubbles[27],
-                Text("//1/4"),
-                self.status_bubbles[28],
-                Text("//1/5"),
-                self.status_bubbles[29],
-                Text("//1/6"),   
-                self.status_bubbles[30],
-                Text("//1/7"),
-                self.status_bubbles[31],
-                Text("//1/8"),
-            ],
-            spacing=5,
-        )
 
     ##################### fill_bubble_array() #####################
     # Description:  The port status bubbles are identified using  #
@@ -131,7 +67,7 @@ class ZoneOne:
     ###############################################################
 
     def fill_bubble_arr(self):
-        for i in range(32):
+        for i in range(8):
             self.status_bubbles.append(Icon(name=icons.CIRCLE_OUTLINED, color=colors.BLACK, size=20))
 
     ######################## set_online() #########################
@@ -177,24 +113,29 @@ class ZoneOne:
         return Column(
                 [
                 Container(
-                    content=Column(
-                      controls=[
-                          self.port_status_row_a,
-                          self.text_a,
-                          self.port_status_row_b,
-                          self.text_b,
-                          self.port_status_row_c,
-                          self.text_c,
-                          self.port_status_row_d,
-                          self.text_d,
-                      ],
-                      spacing=0,
+                    content=Row(
+                    [
+                      Container(
+                        content=Column(
+                            controls=[
+                                self.port_status_row_a,
+                                self.text_a,
+                                self.text_b,
+                            ],
+                            spacing=10,
+                            expand=True,
+                        ),
+                    #   bgcolor="orange",
+                      height=self.page.window_height*0.4,
+                      width=self.page.window_width*0.45,
+                      ),
+                    ],
                     ),
-                    width=self.page.window_width/2,
-                    height=self.page.window_height*0.65,
-                    padding=padding.only(top=10),
-                    # bgcolor="black",
-                   ),
+                width=self.page.window_width/2,
+                height=self.page.window_height*0.65,
+                # padding=padding.only(top=100),
+                # bgcolor="black",
+                ),
                 Container(
                     content=Column(
                         controls=[
@@ -207,7 +148,7 @@ class ZoneOne:
                     # bgcolor="red"
                 )
                 ],
-                expand=True
+                expand=True,
                 # wrap=True,
         )
  
