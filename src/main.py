@@ -57,12 +57,12 @@ def main(page: Page):
         logging.basicConfig(stream=sys.stdout, format='%(process)d  %(levelname)s\t%(message)s', level=logging.INFO)
 
     spirent_ip = configure_spirent()
-    patch_id = patch_letter[spirent_ip]
-    write_config_file(patch_id)
+    patch_letter = patch_id[spirent_ip]
+    write_config_file_init(patch_letter)
 
-    z1 = ZoneOne(page, patch_id)
+    z1 = ZoneOne(page, patch_letter)
     z2 = ZoneTwo(page)
-    z3 = ZoneThree(page, z1, z2.lv)
+    z3 = ZoneThree(page, z1, z2.lv, patch_letter)
    
     page.add(
         Row(

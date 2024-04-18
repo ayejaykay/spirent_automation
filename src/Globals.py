@@ -27,10 +27,10 @@ def configure_spirent():
     return spirent_ip 
 
 
-def write_config_file(patch_id):
+def write_config_file_init(patch_id):
     with open("..\\config\\config.dat", 'w') as fp:
         for i in patch[patch_id]:
-            fp.write(f'{i} ')
+            fp.write(f"{i['port_id']} ")
 
 
 ########################### run_tcl() ##########################
@@ -86,12 +86,19 @@ def run_tcl():
 ##############################################################
 
 
-def file_rw(z1, patch_id):
+def file_rw(z1, patch_letter, wm):
     time.sleep(5)
+    pb_stop_flag = False
+    pb_start_flag = True
     while(1):
         try:
             port_arr = []
+            # ports_online = []
             with open(f"{__location__}\\linkstatus.dat", "r+") as fp: # File created by verify_link.tcl
+                if pb_stop_flag:
+                    wm.stop_progress_bar()
+                    pb_stop_flag = False
+                    pb_start_flag = True
                 fp.readline() # Skip the first line
                 data = fp.readlines() # Read the rest of the file
                 counter = 0 # Index for traversing each line individually 
@@ -103,20 +110,31 @@ def file_rw(z1, patch_id):
                         global_vars.restart_flag = True # If we hit the max subscriptions, we want to kill the script and restart it
             if global_vars.restart_flag:
                 os.remove(f"{__location__}\\linkstatus.dat")
-            port_num = 0
-            for i in patch[patch_id]: #HAVE TO FIGURE OUT HOW TO ENUMERATE PORTS SO WE DO NOT HAVE TO HARD CODE
-                if i in port_arr:
-                    #print(f"{i} offline")
-                    z1.set_offline(port_num)
+            num_ports_online = 0
+            for i in patch[patch_letter]: 
+                if i['port_id'] in port_arr:
+                    # print(f"{i['port_num']} offline")
+                    z1.set_offline(i['port_num'])
                 else:
-                    #print(f"{i} online)")
-                    z1.set_online(port_num)
-                port_num+=1
+                    # print(f"{i['port_num']} online")
+                    z1.set_online(i['port_num'])
+                    num_ports_online += 1
+                    global_vars.ports_online.append(i['port_id'])
+
+            arr_str = (" ").join(global_vars.ports_online)
+            with open("online_ports.dat", 'w') as f:
+                f.write(arr_str)
+            global_vars.ports_online = []
+
             time.sleep(1.3)
             if global_vars.kill_flag:
                 break
         except FileNotFoundError:
             print("Waiting on file write")
+            if pb_start_flag:
+                wm.start_progress_bar_ports()
+                pb_start_flag = False
+                pb_stop_flag = True
             time.sleep(3)
 
 #################### shutdown ####################

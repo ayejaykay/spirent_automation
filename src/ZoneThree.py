@@ -11,6 +11,7 @@ try:
 except ImportError:
     os.system("pip install flet")
 
+__location__ = os.path.dirname(os.path.realpath(__file__))
 
 ########################## ZoneThree #########################
 # Description:  ZoneThree holds the button object which      #
@@ -26,9 +27,10 @@ except ImportError:
 
 class ZoneThree:
 
-    def __init__(self, page, classname, window, patch_id) -> None:
+    def __init__(self, page, classname, window, patch_letter) -> None:
+        print("init zone 3")
         self.page = page
-        self.patch_id = patch_id
+        self.patch_letter = patch_letter
         self.window = window
         self.class_name = classname
         self.window_manager = WindowManager(self.window, self.page) # Holds functions for ListView object
@@ -71,10 +73,9 @@ class ZoneThree:
     ########################################################
    
     def start_proc(self):
-        global kill_flag
-        kill_flag = False
+        global_vars.kill_flag = False
         t1 = threading.Thread(target=run_tcl, daemon=True).start() # Creates and starts run_tcl()
-        t2 = threading.Thread(target=file_rw, args=(self.class_name,self.patch_id), daemon=True).start() # Creates and starts file_rw()
+        t2 = threading.Thread(target=file_rw, args=(self.class_name,self.patch_letter, self.window_manager), daemon=True).start() # Creates and starts file_rw()
         print("Threads started")
 
     ####################### btn_click ######################
@@ -88,13 +89,12 @@ class ZoneThree:
     ########################################################
 
     def btn_click(self, e):
-        global kill_flag
         print("Killing status processes")
-        kill_flag = True # Sets kill_flag which will cause port polling threads to stop running in file_rw()
+        global_vars.kill_flag = True # Sets kill_flag which will cause port polling threads to stop running in file_rw()
         self.test_btn.text="TESTING"
         time.sleep(3)
 
-        var_arr = [self.class_name.text_a, self.class_name.text_b, self.class_name.text_c, self.class_name.text_d]
+        var_arr = [self.class_name.text_a, self.class_name.text_b]
         valid_fields = []
 
         for i in var_arr:
@@ -109,13 +109,18 @@ class ZoneThree:
         try:
             for i in valid_fields:
                 arr = self.spirent_tester.test_device(i.label, i.value, self.window_manager)
+                if arr == None:
+                    break
                 for j in arr:
                     self.window_manager.write_message_to_window(j)
                 self.results_manager.transmit_data(arr, i.label, i.value)
                 arr = []
         except TypeError:
             pass
-
+        try:
+            os.remove(f"{__location__}\\linkstatus.dat")
+        except FileNotFoundError:
+            pass
         self.test_btn.text="Start Spirent Test"
         self.page.update()
         self.start_proc()

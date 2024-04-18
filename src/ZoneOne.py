@@ -20,10 +20,10 @@ __location__ = os.path.dirname(os.path.realpath(__file__))
 
 class ZoneOne:
 
-    def __init__(self, page, patch_id) -> None:
-        self.patch_id = patch_id
-        self.text_a = TextField(label=f"Patch {self.patch_id}", hint_text="Scan Order Number", height=100, border_color="red")
-        self.text_b = TextField(label=f"Patch {self.patch_id}", hint_text="Scan Serial Number", height=100, border_color="red")
+    def __init__(self, page, patch_letter) -> None:
+        self.patch_letter = patch_letter
+        self.text_a = TextField(label=f"Patch {self.patch_letter}", hint_text="Scan Order Number", height=100, border_color="red")
+        self.text_b = TextField(label=f"Patch {self.patch_letter}", hint_text="Scan Serial Number", height=100, border_color="red")
         self.logo = Image(src=f"{__location__}\\assets\\logo.png", width=300, height=175, fit=ImageFit.CONTAIN)
         self.page = page
         self.status_bubbles = []
