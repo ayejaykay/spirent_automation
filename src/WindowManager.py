@@ -11,6 +11,7 @@ class WindowManager:
         self.WindowRef = WindowRef
         self.page = page
         self.progress_text = Text("Testing...")
+        self.port_text = Text("Scanning Ports...")
         self.progress_bar = ProgressBar(width=200, color="red", bgcolor="#eeeeee")
 
     def write_message_to_window(self, msg):
@@ -19,6 +20,11 @@ class WindowManager:
 
     def start_progress_bar(self):
         self.WindowRef.controls.append(self.progress_text)
+        self.WindowRef.controls.append(self.progress_bar)
+        self.page.update()
+
+    def start_progress_bar_ports(self):
+        self.WindowRef.controls.append(self.port_text)
         self.WindowRef.controls.append(self.progress_bar)
         self.page.update()
 

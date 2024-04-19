@@ -1798,14 +1798,16 @@ set PerspectiveNode(1) [stc::create "PerspectiveNode" \
         -under $Perspective(1) \
         -Guid {8CF0ABC3-9F7C-46bd-A22E-00D88A8376D3} \
         -Data {<NodeData Name="resultFrame.1" FrameId="8CF0ABC3-9F7C-46bd-A22E-00D88A8376D3" Active="true" RowCount="1" ColumnCount="2" />} \
-        -ContentData {<ContentData><NodeContentData FrameName="frame://core/Port/ResultQuery:(1, 0, 0)" ResultDataSetId="Port Traffic\Basic Traffic Results" Column="0" Row="0" DockPanelNumber="1" /><NodeContentData FrameName="frame://core/DynamicResultView/ResultQuery:(1, 0, 1)" ResultDataSetId="Port Traffic and Counters\Aggregate Port L1 Tx Rate" Column="1" Row="0" DockPanelNumber="1" /></ContentData> 
+        -ContentData {<ContentData><NodeContentData FrameName="frame://core/Port/ResultQuery:(1, 0, 0)" ResultDataSetId="Port Traffic\Basic Traffic Results" Column="0" Row="0" DockPanelNumber="1" /><NodeContentData FrameName="frame://core/DynamicResultView/ResultQuery:(1, 0, 1)" ResultDataSetId="Port Traffic and Counters\Aggregate Port L1 Tx Rate" Column="1" Row="0" DockPanelNumber="1" /></ContentData> 
+
 } ]
 
 set PerspectiveNode(2) [stc::create "PerspectiveNode" \
         -under $Perspective(1) \
         -Guid {1F412EE6-760C-4937-9644-ACFA463EA44E} \
         -Data {<NodeData Name="resultFrame.2" FrameId="1F412EE6-760C-4937-9644-ACFA463EA44E" Active="false" RowCount="1" ColumnCount="2" />} \
-        -ContentData {<ContentData /> 
+        -ContentData {<ContentData /> 
+
 } ]
 
 set DynamicResultView(1) [stc::create "DynamicResultView" \
@@ -6458,24 +6460,6 @@ proc apply {} {
 #          Command Sequence command is executed, then the test state is 
 #          returned. Test state can take the values: NONE, PASSED or FAILED.
 proc run {} {
-    # Subscribe to results for result query verify_link-0001-generatorportresults
-    stc::subscribe -parent [lindex [stc::get system1 -children-Project] 0] \
-        -resultParent " [lindex [stc::get system1 -children-Project] 0] " \
-        -configType generator \
-        -resultType generatorportresults \
-        -filterList "" \
-        -viewAttributeList "totalframecount totaloctetcount generatorframecount generatoroctetcount generatorsigframecount generatorundersizeframecount generatoroversizeframecount generatorjumboframecount totalframerate totaloctetrate generatorframerate generatoroctetrate generatorsigframerate generatorundersizeframerate generatoroversizeframerate generatorjumboframerate generatorcrcerrorframecount generatorl3checksumerrorcount generatorl4checksumerrorcount generatorcrcerrorframerate generatorl3checksumerrorrate generatorl4checksumerrorrate totalipv4framecount totalipv6framecount totalmplsframecount generatoripv4framecount generatoripv6framecount generatorvlanframecount generatormplsframecount totalipv4framerate totalipv6framerate totalmplsframerate generatoripv4framerate generatoripv6framerate generatorvlanframerate generatormplsframerate totalbitrate generatorbitrate l1bitcount l1bitrate pfcframecount pfcpri0framecount pfcpri1framecount pfcpri2framecount pfcpri3framecount pfcpri4framecount pfcpri5framecount pfcpri6framecount pfcpri7framecount l1bitratepercent " \
-        -interval 1 -filenamePrefix "verify_link-0001-generatorportresults"
-
-    # Subscribe to results for result query verify_link-0002-analyzerportresults
-    #stc::subscribe -parent [lindex [stc::get system1 -children-Project] 0] \
-     #   -resultParent " [lindex [stc::get system1 -children-Project] 0] " \
-      #  -configType analyzer \
-       # -resultType analyzerportresults \
-        #-filterList "" \
-        #-viewAttributeList "totalframecount totaloctetcount sigframecount undersizeframecount oversizeframecount jumboframecount minframelength maxframelength pauseframecount totalframerate totaloctetrate sigframerate undersizeframerate oversizeframerate jumboframerate pauseframerate fcserrorframecount ipv4checksumerrorcount tcpchecksumerrorcount udpchecksumerrorcount prbsfilloctetcount prbsbiterrorcount fcserrorframerate ipv4checksumerrorrate tcpchecksumerrorrate udpchecksumerrorrate prbsfilloctetrate prbsbiterrorrate ipv4framecount ipv6framecount ipv6overipv4framecount tcpframecount udpframecount mplsframecount icmpframecount vlanframecount ipv4framerate ipv6framerate ipv6overipv4framerate tcpframerate udpframerate mplsframerate icmpframerate vlanframerate trigger1count trigger1rate trigger2count trigger2rate trigger3count trigger3rate trigger4count trigger4rate trigger5count trigger5rate trigger6count trigger6rate trigger7count trigger7rate trigger8count trigger8rate combotriggercount combotriggerrate tot#albitrate prbsbiterrorratio vlanframerate l1bitcount l1bitrate pfcframecount fcoeframecount pfcframerate fcoeframerate pfcpri0framecount pfcpri1framecount pfcpri2framecount pfcpri3framecount pfcpri4framecount pfcpri5framecount pfcpri6framecount pfcpri7framecount pfcpri0quanta pfcpri1quanta pfcpri2quanta pfcpri3quanta pfcpri4quanta pfcpri5quanta pfcpri6quanta pfcpri7quanta prbserrorframecount prbserrorframerate userdefinedframecount1 userdefinedframerate1 userdefinedframecount2 userdefinedframerate2 userdefinedframecount3 userdefinedframerate3 userdefinedframecount4 userdefinedframerate4 userdefinedframecount5 userdefinedframerate5 userdefinedframecount6 userdefinedframerate6 l1bitratepercent outseqframecount preambletotalbytes preambleminlength preamblemaxlength droppedframecount inorderframecount reorderedframecount duplicateframecount lateframecount firstarrivaltime lastarrivaltime " \
-        #-interval 1 -filenamePrefix "verify_link-0002-analyzerportresults"
-
     # Start the sequencer
     stc::perform sequencerStart
 

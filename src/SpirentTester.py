@@ -1,5 +1,6 @@
 from subprocess import CalledProcessError
 from dict import *
+import global_vars
 import subprocess
 import logging
 import os
@@ -68,7 +69,10 @@ class SpirentTester:
             return
 
         # Write the proper ports to be used for patch
-        self.write_configuration()
+        if self.write_configuration(window_manager):
+            pass
+        else:
+            return None
 
         # Start testing file from CL
         window_manager.write_message_to_window(f"STARTING TEST for {textfield_value}")
@@ -91,12 +95,18 @@ class SpirentTester:
     #   - None                                                     #
     ################################################################
 
-    def write_configuration(self):
+    def write_configuration(self, wm):
         logging.debug("Writing Configuration")
-        config_data = patch[self.textfield][file_num_ports[self.filename]]
+        # config_data = patch[self.textfield][file_num_ports[self.filename]]
+        num_ports_for_test = file_num_ports[self.filename]
+        with open('online_ports.dat', 'r') as fp:
+                online_ports = fp.readline()
+        if num_ports_for_test != len(online_ports.split()):
+                wm.write_message_to_window(f"Test requires {num_ports_for_test} ports for test. {len(online_ports.split())} ports connected")
+                return False
         with open('..\\config\\config.dat', 'w') as f:
-            f.write(config_data)
-        print(config_data)
+                f.write(online_ports)
+                return True
 
     ####################### get_testing_file ##########################
     # Description:  Parses shop order number to use for dictionary.   #

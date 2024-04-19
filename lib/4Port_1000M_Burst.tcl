@@ -1,12 +1,12 @@
 # Spirent TestCenter Launcher Script
-# Generated on Tue Jan 02 15:01:28 2024 by NTtest
+# Generated on Tue Apr 16 10:21:30 2024 by NTtest
 # Framework ver. 4.70.9706.0000
 #
 # Comments: 
 # 
 #
 # This launcher script invokes the following routines contained in the
-# verify_link_logic.tcl script. After sourcing the logic script,
+# 4Port_1000M_Burst_logic.tcl script. After sourcing the logic script,
 # the logic flow is as follows:
 #
 # init - set the logging level and logging location (stdout).
@@ -45,29 +45,16 @@ proc listFromFile {filename} {
 	return $data
 }
 
-source [ file normalize [ file join [ file dirname [ info script ] ] {verify_link_logic.tcl} ] ]
+source [ file normalize [ file join [ file dirname [ info script ] ] {4Port_100M_Burst_logic.tcl} ] ]
 
-#init
-#config [list "//10.11.1.3/1/1" "//10.11.1.3/1/2" "//10.11.1.3/1/3" "//10.11.1.3/1/4" "//10.11.1.3/1/5" "//10.11.1.3/1/6" "//10.11.1.3/1/7" "//10.11.1.3/1/8"]
+
+init [ file normalize [ file join [ file dirname [ info script ] ] {4Port_100M_Burst_logic.tcl} ] ]
+#config [list "//10.11.1.3/3/1" "//10.11.1.3/3/2" "//10.11.1.3/3/3" "//10.11.1.3/3/4" ]
 config [listFromFile ..\\config\\config.dat]
 configResultLocation [ file normalize [ file dirname [ info script ] ] ]
 configMiscOptions
 connect
 apply
-#Break here
-
-while {1} {
-set result [catch {eval [concat run ]} test_status]
-if { $result == 0 } {
-set outfile [open "..//src//linkstatus.dat" w]
-puts $outfile $test_status
-close $outfile
-} else {
-set outfile [open "linkstatus.dat" a]
-puts $outfile SubscriptionError
-close $outfile
+set test_status [eval [concat run ]]
 cleanup
-return
-}
-}
-
+return $test_status

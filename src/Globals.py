@@ -1,9 +1,37 @@
 from SpirentTester import *
+from dict import *
+import global_vars
 import subprocess
 import time
 import os
 
 __location__ = os.path.dirname(os.path.realpath(__file__)) # Path to current working directory where app is running from
+
+################# configure_spirent #################
+# Description: Get IP address of Spirent adaptor so #
+#              we can assign the right ports for app#
+# Params:                                           #
+#   - None                                          #
+# Returns:                                          #
+#   - String (IP address of spirent adaptor)        #
+#####################################################
+
+def configure_spirent():
+    os.system("netsh interface ip show config name=\"Spirent\" | findstr \"IP Address:\" > spirent_ip.txt")
+    with open("spirent_ip.txt", "r") as fp:
+        data = fp.readline()
+        ip_arr = str(data).split(" ")
+        ip_str = ip_arr[-1]
+        spirent_ip = ip_str[:ip_str.find("\\n")]
+    os.remove("spirent_ip.txt")
+    return spirent_ip 
+
+
+def write_config_file_init(patch_id):
+    with open("..\\config\\config.dat", 'w') as fp:
+        for i in patch[patch_id]:
+            fp.write(f"{i['port_id']} ")
+
 
 ########################### run_tcl() ##########################
 # Description:                                                 #
@@ -23,26 +51,24 @@ __location__ = os.path.dirname(os.path.realpath(__file__)) # Path to current wor
 ################################################################
 
 def run_tcl():
-    global kill_flag
-    global restart_flag
     tcl_location = "..\\Tcl\\bin\\tclsh" # Path to tclsh.exe 
     not_running = True
     while(1):
         if not_running:
             print("Starting Test Script")
-            sp = subprocess.Popen([tcl_location, "verify_link.tcl"]) # Tcl script to verify online ports
+            sp = subprocess.Popen([tcl_location, "..\\lib\\verify_link.tcl"]) # Tcl script to verify online ports
             not_running = False
-        if kill_flag:
+        if global_vars.kill_flag:
             print("Killing Subprocess")
             sp.terminate()
             sp.wait()
             break
-        if restart_flag:
+        if global_vars.restart_flag:
             print("Killing Subprocess")
             sp.terminate()
             sp.wait()
             not_running = True # Set to true so that the subprocess starts again
-            restart_flag = False
+            global_vars.restart_flag = False
 
        
 ########################## file_rw() #########################
@@ -60,14 +86,19 @@ def run_tcl():
 ##############################################################
 
 
-def file_rw(z1):
-    global kill_flag
-    global restart_flag
+def file_rw(z1, patch_letter, wm):
     time.sleep(5)
+    pb_stop_flag = False
+    pb_start_flag = True
     while(1):
         try:
             port_arr = []
+            # ports_online = []
             with open(f"{__location__}\\linkstatus.dat", "r+") as fp: # File created by verify_link.tcl
+                if pb_stop_flag:
+                    wm.stop_progress_bar()
+                    pb_stop_flag = False
+                    pb_start_flag = True
                 fp.readline() # Skip the first line
                 data = fp.readlines() # Read the rest of the file
                 counter = 0 # Index for traversing each line individually 
@@ -76,23 +107,34 @@ def file_rw(z1):
                     if "//" in line: # Info written to file shows which ports are offline.  We are looking for the // which starts the port ID
                         port_arr.append((line[6:-1]))
                     elif "SubscriptionError" in line: # This error is printed to file if we hit max subscriptions in verify_link.tcl
-                        restart_flag = True # If we hit the max subscriptions, we want to kill the script and restart it
-            if restart_flag:
+                        global_vars.restart_flag = True # If we hit the max subscriptions, we want to kill the script and restart it
+            if global_vars.restart_flag:
                 os.remove(f"{__location__}\\linkstatus.dat")
-            port_num = 0
-            for i in spirent_ports:
-                if i in port_arr:
-                    #print(f"{i} offline")
-                    z1.set_offline(port_num)
+            num_ports_online = 0
+            for i in patch[patch_letter]: 
+                if i['port_id'] in port_arr:
+                    # print(f"{i['port_num']} offline")
+                    z1.set_offline(i['port_num'])
                 else:
-                    #print(f"{i} online)")
-                    z1.set_online(port_num)
-                port_num+=1
+                    # print(f"{i['port_num']} online")
+                    z1.set_online(i['port_num'])
+                    num_ports_online += 1
+                    global_vars.ports_online.append(i['port_id'])
+
+            arr_str = (" ").join(global_vars.ports_online)
+            with open("online_ports.dat", 'w') as f:
+                f.write(arr_str)
+            global_vars.ports_online = []
+
             time.sleep(1.3)
-            if kill_flag:
+            if global_vars.kill_flag:
                 break
         except FileNotFoundError:
             print("Waiting on file write")
+            if pb_start_flag:
+                wm.start_progress_bar_ports()
+                pb_start_flag = False
+                pb_stop_flag = True
             time.sleep(3)
 
 #################### shutdown ####################
@@ -109,13 +151,11 @@ def file_rw(z1):
 ##################################################
 
 def shutdown():
-    global kill_flag
-    global ps
-    ps.off_power_supply(1)
+    global_vars.ps.off_power_supply(1)
     time.sleep(1)
     kill_test()
     time.sleep(1)
-    kill_flag = True
+    global_vars.kill_flag = True
     time.sleep(1)
     try:
         os.remove(f"{__location__}\\linkstatus.dat")
